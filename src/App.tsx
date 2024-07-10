@@ -1,4 +1,6 @@
-import { Button, ConfigProvider } from "antd";
+import { ConfigProvider } from "antd";
+import { BrowserRouter } from "react-router-dom";
+import RoutesComponent from "./Routes/Routes";
 
 function App() {
   return (
@@ -9,7 +11,9 @@ function App() {
         },
       }}
     >
-      <Button type="primary">Click</Button>
+      <BrowserRouter>
+        <RoutesComponent />
+      </BrowserRouter>
     </ConfigProvider>
   );
 }

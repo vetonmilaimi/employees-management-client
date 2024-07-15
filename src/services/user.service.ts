@@ -45,3 +45,5 @@ export class UserService extends ApiProvider {
     return (response as BaseApiResponse<UserSession>)?.message?.accessToken;
   }
 }
+
+export default new UserService();

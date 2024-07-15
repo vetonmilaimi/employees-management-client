@@ -2,7 +2,7 @@ import { Route, Routes } from "react-router-dom";
 import PrivateRoute from "./PrivateRoute";
 import Organizations from "../Pages/Super_admin/Organizations";
 import Projects from "../Pages/Admin/Projects";
-import Login from "../Pages/Public/Auth/Login";
+import Login from "../Pages/Auth/Login";
 
 export default function RoutesComponent() {
   return (

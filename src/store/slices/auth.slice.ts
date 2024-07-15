@@ -1,7 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { AuthUserSlice } from "../utils/types";
 import persistReducer from "redux-persist/es/persistReducer";
 import storage from "redux-persist/lib/storage";
+import { AuthUserSlice } from "../../utils/types";
+import { USER_ROLES } from "../../utils/constants";
 
 const persistConfig = {
   key: "system-auth",
@@ -13,6 +14,7 @@ const initialState: { value: AuthUserSlice } = {
     user: {
       _id: "",
       email: "",
+      userRole: USER_ROLES.ADMIN,
     },
     session: {
       user_id: "",

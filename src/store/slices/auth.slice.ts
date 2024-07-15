@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import persistReducer from "redux-persist/es/persistReducer";
 import storage from "redux-persist/lib/storage";
-import { AuthUserSlice } from "../../utils/types";
+import { AuthUserSlice, UserSession } from "../../utils/types";
 import { USER_ROLES } from "../../utils/constants";
 
 const persistConfig = {
@@ -30,6 +30,18 @@ export const authSlice = createSlice({
   reducers: {
     login: (state, action: PayloadAction<AuthUserSlice>) => {
       state.value = { ...action.payload };
+    },
+    logout: (state) => {
+      const temp = { ...state.value };
+      temp.session = { ...initialState.value.session };
+      temp.user = { ...initialState.value.user };
+      state.value = temp;
+    },
+    reGenerateAccessToken: (state, action: PayloadAction<UserSession>) => {
+      const temp = { ...state.value };
+      temp.session.access_token = action.payload.accessToken;
+      temp.session.refresh_token = action.payload.refreshToken;
+      state.value = temp;
     },
   },
 });

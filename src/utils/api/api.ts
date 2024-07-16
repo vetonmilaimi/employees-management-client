@@ -36,7 +36,7 @@ class Api {
     const isFormData = data instanceof FormData;
 
     const ourHeaders = new Headers({
-      access_token: authState?.value?.session?.access_token,
+      access_token: authState?.value?.session?.accessToken,
       ...(headers ?? {}),
     });
 
@@ -62,7 +62,7 @@ class Api {
     ) {
       const oauthResponse = await new UserService().reGenerateTokens({
         check_access_token_expired: false,
-        headers: { refresh_token: authState.value.session.refresh_token },
+        headers: { refresh_token: authState.value.session.refreshToken },
       });
       if (UserService.accessTokenHasBeenRefreshed(oauthResponse)) {
         store.dispatch(

@@ -9,7 +9,7 @@ interface Props {
 const PrivateRoute = ({ children }: Props) => {
   const auth = useSelector((state: RootState) => state?.auth);
 
-  if (!auth?.value?.session?.access_token)
+  if (!auth?.value?.session?.accessToken)
     return <Navigate to="/auth/login" replace />;
 
   return children;

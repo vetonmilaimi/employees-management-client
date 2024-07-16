@@ -14,12 +14,12 @@ const initialState: { value: AuthUserSlice } = {
     user: {
       _id: "",
       email: "",
-      userRole: USER_ROLES.ADMIN,
+      role: USER_ROLES.ADMIN,
     },
     session: {
-      user_id: "",
-      access_token: "",
-      refresh_token: "",
+      userId: "",
+      accessToken: "",
+      refreshToken: "",
     },
   },
 };
@@ -39,8 +39,8 @@ export const authSlice = createSlice({
     },
     reGenerateAccessToken: (state, action: PayloadAction<UserSession>) => {
       const temp = { ...state.value };
-      temp.session.access_token = action.payload.accessToken;
-      temp.session.refresh_token = action.payload.refreshToken;
+      temp.session.accessToken = action.payload.accessToken;
+      temp.session.refreshToken = action.payload.refreshToken;
       state.value = temp;
     },
   },

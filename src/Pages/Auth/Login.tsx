@@ -5,16 +5,23 @@ import { useState } from "react";
 import userService from "../../services/user.service";
 import { useDispatch } from "react-redux";
 import { AuthSliceReducers } from "../../store/slices/auth.slice";
+import { USER_ROLES } from "../../utils/constants";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const onSubmit = async (data: object) => {
     setLoading(true);
     try {
       const response = await userService.login({ data });
       dispatch(AuthSliceReducers.login(response.message));
+      if (response.message?.user?.role === USER_ROLES.SUPER_ADMIN) {
+        navigate("/super-admin/organizations");
+      }
+      console.log(response);
     } catch (error) {
       console.log(error);
     } finally {

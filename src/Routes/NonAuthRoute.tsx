@@ -10,15 +10,18 @@ interface Props {
 const NonAuthRoute = ({ children }: Props) => {
   const auth = useSelector((state: RootState) => state.auth);
 
-  if (auth.value.session.access_token)
-    <Navigate
-      to={
-        auth?.value?.user.userRole === USER_ROLES.SUPER_ADMIN
-          ? "/super-admin/organizations"
-          : "/admin/projects"
-      }
-      replace
-    />;
+  if (auth?.value?.session?.accessToken) {
+    return (
+      <Navigate
+        to={
+          auth?.value?.user?.role === USER_ROLES.SUPER_ADMIN
+            ? "/super-admin/organizations"
+            : "/admin/projects"
+        }
+        replace
+      />
+    );
+  }
 
   return children;
 };

@@ -45,11 +45,11 @@ export interface AuthUserSlice {
   user: {
     _id: string;
     email: string;
-    userRole: USER_ROLES;
+    role: USER_ROLES;
   };
   session: {
-    user_id: string;
-    access_token: string;
-    refresh_token: string;
+    userId: string;
+    accessToken: string;
+    refreshToken: string;
   };
 }

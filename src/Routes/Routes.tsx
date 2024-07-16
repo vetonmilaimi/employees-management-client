@@ -1,14 +1,16 @@
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import PrivateRoute from "./PrivateRoute";
 import Organizations from "../Pages/Super_admin/Organizations";
 import Projects from "../Pages/Admin/Projects";
 import Login from "../Pages/Auth/Login";
 import NonAuthRoute from "./NonAuthRoute";
+import Employees from "../Pages/Admin/Employees";
 
 export default function RoutesComponent() {
   return (
     <Routes>
-      <Route path="/" element={<div>Homepage</div>} />
+      <Route path="/" element={<Navigate to="/auth/login" />} />
+
       <Route
         path="auth/login"
         element={
@@ -17,6 +19,7 @@ export default function RoutesComponent() {
           </NonAuthRoute>
         }
       />
+
       {/* 
           Super Admin Routes
       */}
@@ -34,9 +37,23 @@ export default function RoutesComponent() {
       {/* 
           Admin Routes
       */}
-      <Route path="admin">
-        <Route path="projects" element={<Projects />} />
-      </Route>
+      <Route
+        path="projects"
+        element={
+          <PrivateRoute>
+            <Projects />
+          </PrivateRoute>
+        }
+      />
+
+      <Route
+        path="employees"
+        element={
+          <PrivateRoute>
+            <Employees />
+          </PrivateRoute>
+        }
+      />
     </Routes>
   );
 }

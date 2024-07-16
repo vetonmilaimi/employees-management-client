@@ -16,7 +16,7 @@ const NonAuthRoute = ({ children }: Props) => {
         to={
           auth?.value?.user?.role === USER_ROLES.SUPER_ADMIN
             ? "/super-admin/organizations"
-            : "/admin/projects"
+            : "/projects"
         }
         replace
       />

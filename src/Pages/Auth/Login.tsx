@@ -18,10 +18,13 @@ const Login = () => {
     try {
       const response = await userService.login({ data });
       dispatch(AuthSliceReducers.login(response.message));
-      if (response.message?.user?.role === USER_ROLES.SUPER_ADMIN) {
-        navigate("/super-admin/organizations");
-      }
-      console.log(response);
+      navigate(
+        `${
+          response.message.user.role === USER_ROLES.ADMIN
+            ? "/"
+            : "/super-admin/organizations"
+        }`
+      );
     } catch (error) {
       console.log(error);
     } finally {

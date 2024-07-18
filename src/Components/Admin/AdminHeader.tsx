@@ -3,14 +3,11 @@ import { ProjectOutlined, LogoutOutlined } from "@ant-design/icons";
 import { store } from "../../store/store";
 import { AuthSliceReducers } from "../../store/slices/auth.slice";
 import userService from "../../services/user.service";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Header } from "antd/es/layout/layout";
 
 const AdminHeader = () => {
   const navigate = useNavigate();
-  const location = useLocation();
-
-  const { pathname } = location;
 
   const logoutHandler = async () => {
     try {
@@ -44,7 +41,7 @@ const AdminHeader = () => {
       <Menu
         theme="dark"
         mode="horizontal"
-        defaultSelectedKeys={[pathname]}
+        selectable={false}
         items={[
           {
             key: "/projects",

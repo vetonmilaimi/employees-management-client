@@ -1,4 +1,4 @@
-import { ConfigProvider } from "antd";
+import { ConfigProvider, App as AntDApp } from "antd";
 import { BrowserRouter } from "react-router-dom";
 import RoutesComponent from "./Routes/Routes";
 import { useSelector } from "react-redux";
@@ -16,18 +16,25 @@ function App() {
         token: {
           colorPrimary: "#76ABAE",
         },
+        components: {
+          Typography: {
+            colorPrimary: "#fff",
+          },
+        },
       }}
     >
-      <BrowserRouter>
-        {authSession.session.accessToken ? (
-          authSession.user.role === USER_ROLES.ADMIN ? (
-            <AdminHeader />
-          ) : (
-            <SuperAdminHeader />
-          )
-        ) : null}
-        <RoutesComponent />
-      </BrowserRouter>
+      <AntDApp>
+        <BrowserRouter>
+          {authSession.session.accessToken ? (
+            authSession.user.role === USER_ROLES.ADMIN ? (
+              <AdminHeader />
+            ) : (
+              <SuperAdminHeader />
+            )
+          ) : null}
+          <RoutesComponent />
+        </BrowserRouter>
+      </AntDApp>
     </ConfigProvider>
   );
 }

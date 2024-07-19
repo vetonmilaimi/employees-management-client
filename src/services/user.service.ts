@@ -4,6 +4,7 @@ import {
   AuthUserSlice,
   BaseApiResponse,
   ErrorResponse,
+  IUser,
   UserSession,
 } from "../utils/types";
 import ApiProvider from "./abstract-api.provider";
@@ -24,6 +25,18 @@ export class UserService extends ApiProvider {
     options: ApiFetchRequestOptions = {}
   ): Promise<BaseApiResponse<string>> {
     return this.callApi(Endpoint.user.auth.register, options);
+  }
+
+  public async list(
+    options: ApiFetchRequestOptions = {}
+  ): Promise<BaseApiResponse<IUser[]>> {
+    return this.callApi(Endpoint.user.list, options);
+  }
+
+  public async delete(
+    options: ApiFetchRequestOptions = {}
+  ): Promise<BaseApiResponse<object>> {
+    return this.callApi(Endpoint.user.delete, options);
   }
 
   public static accessTokenExpired(response: unknown) {

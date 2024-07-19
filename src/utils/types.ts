@@ -53,3 +53,10 @@ export interface AuthUserSlice {
     refreshToken: string;
   };
 }
+export interface IUser {
+  _id: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  role: USER_ROLES;
+}

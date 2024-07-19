@@ -5,6 +5,7 @@ import Projects from "../Pages/Admin/Projects";
 import Login from "../Pages/Auth/Login";
 import NonAuthRoute from "./NonAuthRoute";
 import Employees from "../Pages/Admin/Employees";
+import Users from "../Pages/Super_admin/Users";
 
 export default function RoutesComponent() {
   return (
@@ -29,6 +30,14 @@ export default function RoutesComponent() {
           element={
             <PrivateRoute>
               <Organizations />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="users"
+          element={
+            <PrivateRoute>
+              <Users />
             </PrivateRoute>
           }
         />

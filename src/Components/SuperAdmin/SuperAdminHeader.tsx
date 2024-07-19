@@ -44,6 +44,13 @@ const SuperAdminHeader = () => {
             key: "/super-admin/organizations",
             icon: <BankOutlined />,
             label: "Organizations",
+            onClick: () => navigate("/super-admin/organizations"),
+          },
+          {
+            key: "/super-admin/users",
+            icon: <BankOutlined />,
+            label: "Users",
+            onClick: () => navigate("/super-admin/users"),
           },
           {
             key: "logout",

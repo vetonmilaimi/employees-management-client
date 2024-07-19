@@ -11,5 +11,7 @@ export const Endpoint = {
         method: "GET",
       },
     },
+    list: { url: `${API_URL}/v1/admin/list-users`, method: "GET" },
+    delete: { url: `${API_URL}/v1/admin/user-delete`, method: "DELETE" },
   },
 };

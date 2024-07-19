@@ -2,6 +2,7 @@ import { App, Button, Space, Spin, Table, TableProps } from "antd";
 import { ErrorResponse, IUser } from "../../utils/types";
 import { useEffect, useState } from "react";
 import userService from "../../services/user.service";
+import { USER_ROLES } from "../../utils/constants";
 // import { LoadingOutlined } from "@ant-design/icons";
 
 const Users = () => {
@@ -32,11 +33,16 @@ const Users = () => {
       render: (_, record) => (
         <Space size="middle">
           <Button
-            type="default"
-            style={{
-              color: "white",
-              backgroundColor: "#f00",
-            }}
+            disabled={record.role === USER_ROLES.SUPER_ADMIN}
+            // type={record.role === USER_ROLES.SUPER_ADMIN ? "text" : "default"}
+            style={
+              record.role !== USER_ROLES.SUPER_ADMIN
+                ? {
+                    color: "white",
+                    backgroundColor: "#f00",
+                  }
+                : {}
+            }
             onClick={() => {
               deleteUser(record._id);
             }}
@@ -101,7 +107,7 @@ const Users = () => {
       <Table
         loading={
           loading && {
-            indicator: <Spin tip="loading" size="large" />,
+            indicator: <Spin size="large" />,
           }
         }
         tableLayout="auto"

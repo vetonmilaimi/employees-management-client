@@ -3,7 +3,6 @@ import { ErrorResponse, IUser } from "../../utils/types";
 import { useEffect, useState } from "react";
 import userService from "../../services/user.service";
 import { USER_ROLES } from "../../utils/constants";
-// import { LoadingOutlined } from "@ant-design/icons";
 
 const Users = () => {
   const [users, setUsers] = useState<IUser[]>([]);
@@ -34,15 +33,16 @@ const Users = () => {
         <Space size="middle">
           <Button
             disabled={record.role === USER_ROLES.SUPER_ADMIN}
-            // type={record.role === USER_ROLES.SUPER_ADMIN ? "text" : "default"}
-            style={
-              record.role !== USER_ROLES.SUPER_ADMIN
-                ? {
-                    color: "white",
-                    backgroundColor: "#f00",
-                  }
-                : {}
-            }
+            className="bg-primary text-white"
+            // style={
+
+            //   record.role !== USER_ROLES.SUPER_ADMIN
+            //     ? {
+            //         color: "white",
+            //         backgroundColor: "#f00",
+            //       }
+            //     : {}
+            // }
             onClick={() => {
               deleteUser(record._id);
             }}
@@ -99,22 +99,35 @@ const Users = () => {
   return (
     <div
       style={{
-        maxWidth: "90%",
-        margin: "auto",
-        marginTop: "1rem",
+        display: "flex",
+        justifyContent: "space-between",
+        alignContent: "center",
+        overflow: "hidden",
+        gap: "16px",
       }}
     >
-      <Table
-        loading={
-          loading && {
-            indicator: <Spin size="large" />,
+      <div
+        style={{
+          backgroundColor: "red",
+          minWidth: "100px",
+        }}
+      >
+        Sider
+      </div>
+      <div style={{}}>
+        <Table
+          loading={
+            loading && {
+              indicator: <Spin size="large" />,
+            }
           }
-        }
-        tableLayout="auto"
-        columns={columns}
-        dataSource={users}
-        pagination={false}
-      />
+          tableLayout="auto"
+          sticky
+          columns={columns}
+          dataSource={users}
+          pagination={false}
+        />
+      </div>
     </div>
   );
 };

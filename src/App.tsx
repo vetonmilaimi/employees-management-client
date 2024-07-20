@@ -25,8 +25,8 @@ function App() {
     >
       <AntDApp>
         <BrowserRouter>
-          {authSession.session.accessToken ? (
-            authSession.user.role === USER_ROLES.ADMIN ? (
+          {authSession?.session?.accessToken ? (
+            authSession?.user?.role === USER_ROLES.ADMIN ? (
               <AdminHeader />
             ) : (
               <SuperAdminHeader />

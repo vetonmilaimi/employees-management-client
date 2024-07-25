@@ -34,15 +34,6 @@ const Users = () => {
           <Button
             disabled={record.role === USER_ROLES.SUPER_ADMIN}
             className="bg-primary text-white"
-            // style={
-
-            //   record.role !== USER_ROLES.SUPER_ADMIN
-            //     ? {
-            //         color: "white",
-            //         backgroundColor: "#f00",
-            //       }
-            //     : {}
-            // }
             onClick={() => {
               deleteUser(record._id);
             }}
@@ -106,23 +97,14 @@ const Users = () => {
         gap: "16px",
       }}
     >
-      <div
-        style={{
-          backgroundColor: "red",
-          minWidth: "100px",
-        }}
-      >
-        Sider
-      </div>
-      <div style={{}}>
+      <div>
         <Table
           loading={
             loading && {
               indicator: <Spin size="large" />,
             }
           }
-          tableLayout="auto"
-          sticky
+          tableLayout="fixed"
           columns={columns}
           dataSource={users}
           pagination={false}

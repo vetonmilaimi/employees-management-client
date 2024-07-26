@@ -5,7 +5,11 @@ import { useState } from "react";
 import { ErrorResponse } from "../../utils/types";
 import superAdminService from "../../services/superAdmin.service";
 
-const AddUser = () => {
+interface Props {
+  onSuccessCallback: () => void;
+}
+
+const AddUser = ({ onSuccessCallback }: Props) => {
   const { notification } = App.useApp();
   const [loading, setLoading] = useState(false);
 
@@ -13,7 +17,7 @@ const AddUser = () => {
     setLoading(true);
     try {
       const response = await superAdminService.inviteUser({ data });
-      console.log(response);
+      if (!response.error) onSuccessCallback();
     } catch (error) {
       notification.error({
         message: (error as ErrorResponse).name,

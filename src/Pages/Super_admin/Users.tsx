@@ -59,7 +59,14 @@ const Users = () => {
   const addUser = () => {
     store.dispatch(
       GlobalSliceReducers.showModal({
-        component: <AddUser />,
+        component: (
+          <AddUser
+            onSuccessCallback={() => {
+              store.dispatch(GlobalSliceReducers.closeModal());
+              getUsers();
+            }}
+          />
+        ),
       })
     );
   };

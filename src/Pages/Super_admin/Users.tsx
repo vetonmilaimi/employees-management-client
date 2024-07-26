@@ -1,4 +1,4 @@
-import { App, Button, Space, Spin, Table, TableProps } from "antd";
+import { App, Button, Popconfirm, Space, Spin, Table, TableProps } from "antd";
 import { ErrorResponse, IUser } from "../../utils/types";
 import { useEffect, useState } from "react";
 import { USER_ROLES } from "../../utils/constants";
@@ -6,6 +6,7 @@ import { GlobalSliceReducers } from "../../store/slices/global.slice";
 import { store } from "../../store/store";
 import AddUser from "../../Components/Forms/AddUser.form";
 import superAdminService from "../../services/superAdmin.service";
+import AppTexts from "../../utils/texts/app-texts.json";
 
 const Users = () => {
   const [users, setUsers] = useState<IUser[]>([]);
@@ -34,16 +35,22 @@ const Users = () => {
       key: "action",
       render: (_, record) => (
         <Space size="middle">
-          <Button
-            disabled={record.role === USER_ROLES.SUPER_ADMIN}
-            className="bg-red-500 text-white"
-            type="default"
-            onClick={() => {
-              deleteUser(record._id);
-            }}
+          <Popconfirm
+            title={AppTexts.users_page["delete-user"]}
+            onConfirm={() => deleteUser(record._id)}
+            onCancel={() => {}}
+            okText={AppTexts.global.yes}
+            cancelText={AppTexts.global.no}
           >
-            Delete
-          </Button>
+            <Button
+              disabled={record.role === USER_ROLES.SUPER_ADMIN}
+              className="bg-red-500 text-white"
+              type="default"
+              onClick={() => {}}
+            >
+              {AppTexts.global.delete}
+            </Button>
+          </Popconfirm>
         </Space>
       ),
     },
@@ -103,7 +110,7 @@ const Users = () => {
     <div className="flex-col justify-center overflow-hidden max-w-[80%] mx-auto">
       <div className="max-w-100 py-3 px-1 my-2 bg-white flex justify-end rounded-md">
         <Button type="primary" onClick={addUser}>
-          Add a user
+          {AppTexts.users_page["add-user"]}
         </Button>
       </div>
       <Table

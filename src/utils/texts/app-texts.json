@@ -9,7 +9,8 @@
   },
 
   "users_page": {
-    "add-user": "Add a user"
+    "add-user": "Add a user",
+    "delete-user": "Are you sure you want to delete this User?"
   },
 
   "global": {
@@ -18,6 +19,9 @@
     "password_required": "Password is required!",
     "first_name": "First Name",
     "last_name": "Last Name",
-    "submit": "Submit"
+    "submit": "Submit",
+    "yes": "Yes",
+    "no": "No",
+    "delete": "Delete"
   }
 }

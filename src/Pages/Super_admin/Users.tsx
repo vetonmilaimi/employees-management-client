@@ -1,11 +1,11 @@
 import { App, Button, Space, Spin, Table, TableProps } from "antd";
 import { ErrorResponse, IUser } from "../../utils/types";
 import { useEffect, useState } from "react";
-import userService from "../../services/user.service";
 import { USER_ROLES } from "../../utils/constants";
 import { GlobalSliceReducers } from "../../store/slices/global.slice";
 import { store } from "../../store/store";
 import AddUser from "../../Components/Forms/AddUser.form";
+import superAdminService from "../../services/superAdmin.service";
 
 const Users = () => {
   const [users, setUsers] = useState<IUser[]>([]);
@@ -59,7 +59,7 @@ const Users = () => {
 
   const getUsers = async () => {
     try {
-      const response = await userService.list();
+      const response = await superAdminService.listUsers();
       setUsers(
         response.message.map((el) => {
           return { ...el, key: el._id };
@@ -78,7 +78,7 @@ const Users = () => {
   const deleteUser = async (_id: string) => {
     setLoading(true);
     try {
-      const response = await userService.delete({
+      const response = await superAdminService.deleteUser({
         query: {
           _id,
         },

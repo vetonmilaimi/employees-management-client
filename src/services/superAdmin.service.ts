@@ -8,6 +8,18 @@ export class SuperAdminService extends ApiProvider {
   ): Promise<BaseApiResponse<IUser>> {
     return this.callApi(Endpoint.superAdmin["invite-user"], options);
   }
+
+  public async listUsers(
+    options: ApiFetchRequestOptions = {}
+  ): Promise<BaseApiResponse<IUser[]>> {
+    return this.callApi(Endpoint.superAdmin["list-users"], options);
+  }
+
+  public async deleteUser(
+    options: ApiFetchRequestOptions = {}
+  ): Promise<BaseApiResponse<object>> {
+    return this.callApi(Endpoint.superAdmin["delete-user"], options);
+  }
 }
 
 export default new SuperAdminService();

@@ -14,4 +14,10 @@ export const Endpoint = {
     list: { url: `${API_URL}/v1/super-admin/list-users`, method: "GET" },
     delete: { url: `${API_URL}/v1/super-admin/user-delete`, method: "DELETE" },
   },
+  superAdmin: {
+    "invite-user": {
+      url: `${API_URL}/v1/super-admin/user-invite`,
+      method: "POST",
+    },
+  },
 };

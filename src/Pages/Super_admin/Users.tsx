@@ -3,6 +3,9 @@ import { ErrorResponse, IUser } from "../../utils/types";
 import { useEffect, useState } from "react";
 import userService from "../../services/user.service";
 import { USER_ROLES } from "../../utils/constants";
+import { GlobalSliceReducers } from "../../store/slices/global.slice";
+import { store } from "../../store/store";
+import AddUser from "../../Components/Forms/AddUser.form";
 
 const Users = () => {
   const [users, setUsers] = useState<IUser[]>([]);
@@ -33,7 +36,8 @@ const Users = () => {
         <Space size="middle">
           <Button
             disabled={record.role === USER_ROLES.SUPER_ADMIN}
-            className="bg-primary text-white"
+            className="bg-red-500 text-white"
+            type="default"
             onClick={() => {
               deleteUser(record._id);
             }}
@@ -44,6 +48,14 @@ const Users = () => {
       ),
     },
   ];
+
+  const addUser = () => {
+    store.dispatch(
+      GlobalSliceReducers.showModal({
+        component: <AddUser />,
+      })
+    );
+  };
 
   const getUsers = async () => {
     try {
@@ -88,28 +100,23 @@ const Users = () => {
   }, []);
 
   return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "space-between",
-        alignContent: "center",
-        overflow: "hidden",
-        gap: "16px",
-      }}
-    >
-      <div>
-        <Table
-          loading={
-            loading && {
-              indicator: <Spin size="large" />,
-            }
-          }
-          tableLayout="fixed"
-          columns={columns}
-          dataSource={users}
-          pagination={false}
-        />
+    <div className="flex-col justify-center overflow-hidden max-w-[80%] mx-auto">
+      <div className="max-w-100 py-3 px-1 my-2 bg-white flex justify-end rounded-md">
+        <Button type="primary" onClick={addUser}>
+          Add a user
+        </Button>
       </div>
+      <Table
+        loading={
+          loading && {
+            indicator: <Spin size="large" />,
+          }
+        }
+        tableLayout="fixed"
+        columns={columns}
+        dataSource={users}
+        pagination={false}
+      />
     </div>
   );
 };

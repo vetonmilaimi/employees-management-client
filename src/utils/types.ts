@@ -31,6 +31,13 @@ export interface ErrorResponse {
   details: object;
 }
 
+export interface IGlobalSlice {
+  modal: {
+    visible: boolean;
+    component: JSX.Element | null;
+  };
+}
+
 export interface UserSession {
   entityId: string;
   userId: string;

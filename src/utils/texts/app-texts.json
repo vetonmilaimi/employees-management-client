@@ -7,8 +7,17 @@
       "login": "Login"
     }
   },
+
+  "users_page": {
+    "add-user": "Add a user"
+  },
+
   "global": {
     "email_required": "Email is required!",
-    "password_required": "Password is required!"
+    "field_required": "Field required!",
+    "password_required": "Password is required!",
+    "first_name": "First Name",
+    "last_name": "Last Name",
+    "submit": "Submit"
   }
 }

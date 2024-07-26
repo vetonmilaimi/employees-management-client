@@ -6,6 +6,7 @@ import { RootState } from "./store/store";
 import SuperAdminHeader from "./Components/SuperAdmin/SuperAdminHeader";
 import { USER_ROLES } from "./utils/constants";
 import AdminHeader from "./Components/Admin/AdminHeader";
+import CustomModal from "./Components/UI/Modal";
 
 function App() {
   const authSession = useSelector((state: RootState) => state.auth.value);
@@ -32,6 +33,7 @@ function App() {
               <SuperAdminHeader />
             )
           ) : null}
+          <CustomModal />
           <RoutesComponent />
         </BrowserRouter>
       </AntDApp>

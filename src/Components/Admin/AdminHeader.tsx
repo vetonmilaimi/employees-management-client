@@ -27,6 +27,7 @@ const AdminHeader = () => {
       }}
     >
       <div onClick={() => navigate("/")}>
+        <img src="/app-icon.svg" />
         <Typography
           style={{
             color: "#fff",

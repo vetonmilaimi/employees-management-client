@@ -5,6 +5,7 @@ import { AuthSliceReducers } from "../../store/slices/auth.slice";
 import userService from "../../services/user.service";
 import { useNavigate } from "react-router-dom";
 import { Header } from "antd/es/layout/layout";
+import AppIcon from "../../../assets/app-icon.svg";
 
 const SuperAdminHeader = () => {
   const navigate = useNavigate();
@@ -23,7 +24,8 @@ const SuperAdminHeader = () => {
     <Header
       style={{ display: "flex", alignItems: "center", justifyContent: "end" }}
     >
-      <div onClick={() => navigate("/")}>
+      <div className="flex flex-1 items-center" onClick={() => navigate("/")}>
+        <img src={AppIcon} className="max-w-[50px] max-h-[50px] mr-2" />
         <Typography
           style={{
             color: "#fff",

@@ -66,4 +66,6 @@ export interface IUser {
   firstName: string;
   lastName: string;
   role: USER_ROLES;
+  activated: boolean;
+  activateToken?: string;
 }

@@ -1,7 +1,7 @@
 import { App, Button, Popconfirm, Space, Spin, Table, TableProps } from "antd";
 import { ErrorResponse, IUser } from "../../utils/types";
 import { useEffect, useState } from "react";
-import { USER_ROLES } from "../../utils/constants";
+import { APP_URL, USER_ROLES } from "../../utils/constants";
 import { GlobalSliceReducers } from "../../store/slices/global.slice";
 import { store } from "../../store/store";
 import AddUser from "../../Components/Forms/AddUser.form";
@@ -29,6 +29,15 @@ const Users = () => {
       title: "Role",
       dataIndex: "role",
       key: "role",
+    },
+    {
+      title: "Activate Url",
+      dataIndex: "verifyToken",
+      key: "verifyToken",
+      render: (_, record) =>
+        record?.activateToken
+          ? `${APP_URL}/activate?token=${record.activateToken}`
+          : "Activated",
     },
     {
       title: "Action",

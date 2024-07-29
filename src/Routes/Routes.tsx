@@ -6,6 +6,7 @@ import Login from "../Pages/Auth/Login";
 import NonAuthRoute from "./NonAuthRoute";
 import Employees from "../Pages/Admin/Employees";
 import Users from "../Pages/Super_admin/Users";
+import Activate from "../Pages/Auth/Activate";
 
 export default function RoutesComponent() {
   return (
@@ -17,6 +18,15 @@ export default function RoutesComponent() {
         element={
           <NonAuthRoute>
             <Login />
+          </NonAuthRoute>
+        }
+      />
+
+      <Route
+        path="activate"
+        element={
+          <NonAuthRoute>
+            <Activate />
           </NonAuthRoute>
         }
       />

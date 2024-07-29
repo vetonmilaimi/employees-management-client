@@ -8,6 +8,11 @@
     }
   },
 
+  "activate_page": {
+    "title": "Create your password",
+    "confirm_password_placeholder": "Confirm password"
+  },
+
   "users_page": {
     "add-user": "Add a user",
     "delete-user": "Are you sure you want to delete this User?"
@@ -17,6 +22,7 @@
     "email_required": "Email is required!",
     "field_required": "Field required!",
     "password_required": "Password is required!",
+    "confirm_password_required": "Confirm Password is required!",
     "first_name": "First Name",
     "last_name": "Last Name",
     "submit": "Submit",

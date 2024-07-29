@@ -6,6 +6,7 @@ export const Endpoint = {
       login: { url: `${API_URL}/v1/auth/login`, method: "POST" },
       register: { url: `${API_URL}/v1/auth/register`, method: "POST" },
       logout: { url: `${API_URL}/v1/auth/logout`, method: "GET" },
+      activate: { url: `${API_URL}/v1/auth/activate`, method: "POST" },
       regenerateTokens: {
         url: `${API_URL}/v1/auth/regenerate-tokens`,
         method: "GET",

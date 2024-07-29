@@ -1,17 +1,11 @@
 import LoginForm from "../../Components/Forms/Login.form";
-import Title from "antd/es/typography/Title";
+import AppTexts from "../../utils/texts/app-texts.json";
 
 const Login = () => {
   return (
-    <div style={{ textAlign: "center", width: "40%", marginInline: "auto" }}>
-      <Title
-        level={2}
-        style={{
-          color: "#fff",
-        }}
-      >
-        Login Page
-      </Title>
+    <div className="text-center w-[40%] mx-auto py-[5rem]">
+      <h1 className="text-3xl mb-7 text-white">{AppTexts.login_page.title}</h1>
+
       <LoginForm />
     </div>
   );

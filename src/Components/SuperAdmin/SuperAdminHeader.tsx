@@ -22,7 +22,10 @@ const SuperAdminHeader = () => {
 
   return (
     <Header
-      style={{ display: "flex", alignItems: "center", justifyContent: "end" }}
+      style={{
+        display: "flex",
+        alignItems: "center",
+      }}
     >
       <div className="flex flex-1 items-center" onClick={() => navigate("/")}>
         <img src={AppIcon} className="max-w-[50px] max-h-[50px] mr-2" />

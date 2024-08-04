@@ -37,7 +37,7 @@ const SuperAdminHeader = () => {
             fontStyle: "italic",
           }}
         >
-          ALPDECOR
+          EMS
         </Typography>
       </div>
       <Menu

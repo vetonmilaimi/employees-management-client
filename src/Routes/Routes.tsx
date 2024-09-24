@@ -1,11 +1,11 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import PrivateRoute from "./PrivateRoute";
-import Organizations from "../Pages/Super_admin/Organizations";
-import Projects from "../Pages/Admin/Projects";
+import Organizations from "../Pages/Admin/Organizations";
+import Projects from "../Pages/Manager/Projects";
 import Login from "../Pages/Auth/Login";
 import NonAuthRoute from "./NonAuthRoute";
-import Employees from "../Pages/Admin/Employees";
-import Users from "../Pages/Super_admin/Users";
+import Employees from "../Pages/Manager/Employees";
+import Users from "../Pages/Admin/Users";
 import Activate from "../Pages/Auth/Activate";
 
 export default function RoutesComponent() {
@@ -32,9 +32,9 @@ export default function RoutesComponent() {
       />
 
       {/* 
-          Super Admin Routes
+          Admin Routes
       */}
-      <Route path="super-admin">
+      <Route path="admin">
         <Route
           path="organizations"
           element={
@@ -56,23 +56,25 @@ export default function RoutesComponent() {
       {/* 
           Admin Routes
       */}
-      <Route
-        path="projects"
-        element={
-          <PrivateRoute>
-            <Projects />
-          </PrivateRoute>
-        }
-      />
+      <Route path="manager">
+        <Route
+          path="projects"
+          element={
+            <PrivateRoute>
+              <Projects />
+            </PrivateRoute>
+          }
+        />
 
-      <Route
-        path="employees"
-        element={
-          <PrivateRoute>
-            <Employees />
-          </PrivateRoute>
-        }
-      />
+        <Route
+          path="employees"
+          element={
+            <PrivateRoute>
+              <Employees />
+            </PrivateRoute>
+          }
+        />
+      </Route>
     </Routes>
   );
 }

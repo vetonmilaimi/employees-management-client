@@ -1,5 +1,5 @@
 import { Menu, Typography } from "antd";
-import { ProjectOutlined, LogoutOutlined } from "@ant-design/icons";
+import { BankOutlined, LogoutOutlined } from "@ant-design/icons";
 import { store } from "../../store/store";
 import { AuthSliceReducers } from "../../store/slices/auth.slice";
 import userService from "../../services/user.service";
@@ -46,20 +46,16 @@ const AdminHeader = () => {
         selectable={false}
         items={[
           {
-            key: "/projects",
-            icon: <ProjectOutlined />,
-            label: "Projects",
-            onClick: () => {
-              navigate("/projects");
-            },
+            key: "/super-admin/organizations",
+            icon: <BankOutlined />,
+            label: "Organizations",
+            onClick: () => navigate("/super-admin/organizations"),
           },
           {
-            key: "/employees",
-            icon: <ProjectOutlined />,
-            label: "Employees",
-            onClick: () => {
-              navigate("/employees");
-            },
+            key: "/super-admin/users",
+            icon: <BankOutlined />,
+            label: "Users",
+            onClick: () => navigate("/super-admin/users"),
           },
           {
             key: "logout",
@@ -72,7 +68,7 @@ const AdminHeader = () => {
           flex: 1,
           minWidth: 0,
           justifyContent: "end",
-          justifyItems: "center",
+          alignItems: "center",
         }}
       />
     </Header>

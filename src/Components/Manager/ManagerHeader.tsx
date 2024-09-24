@@ -1,5 +1,5 @@
 import { Menu, Typography } from "antd";
-import { BankOutlined, LogoutOutlined } from "@ant-design/icons";
+import { ProjectOutlined, LogoutOutlined } from "@ant-design/icons";
 import { store } from "../../store/store";
 import { AuthSliceReducers } from "../../store/slices/auth.slice";
 import userService from "../../services/user.service";
@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { Header } from "antd/es/layout/layout";
 import AppIcon from "../../../assets/app-icon.svg";
 
-const SuperAdminHeader = () => {
+const ManagerHeader = () => {
   const navigate = useNavigate();
 
   const logoutHandler = async () => {
@@ -46,16 +46,20 @@ const SuperAdminHeader = () => {
         selectable={false}
         items={[
           {
-            key: "/super-admin/organizations",
-            icon: <BankOutlined />,
-            label: "Organizations",
-            onClick: () => navigate("/super-admin/organizations"),
+            key: "/projects",
+            icon: <ProjectOutlined />,
+            label: "Projects",
+            onClick: () => {
+              navigate("/projects");
+            },
           },
           {
-            key: "/super-admin/users",
-            icon: <BankOutlined />,
-            label: "Users",
-            onClick: () => navigate("/super-admin/users"),
+            key: "/employees",
+            icon: <ProjectOutlined />,
+            label: "Employees",
+            onClick: () => {
+              navigate("/employees");
+            },
           },
           {
             key: "logout",
@@ -68,11 +72,11 @@ const SuperAdminHeader = () => {
           flex: 1,
           minWidth: 0,
           justifyContent: "end",
-          alignItems: "center",
+          justifyItems: "center",
         }}
       />
     </Header>
   );
 };
 
-export default SuperAdminHeader;
+export default ManagerHeader;

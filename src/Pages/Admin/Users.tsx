@@ -5,7 +5,7 @@ import { APP_URL, USER_ROLES } from "../../utils/constants";
 import { GlobalSliceReducers } from "../../store/slices/global.slice";
 import { store } from "../../store/store";
 import AddUser from "../../Components/Forms/AddUser.form";
-import superAdminService from "../../services/superAdmin.service";
+import superAdminService from "../../services/admin.service";
 import AppTexts from "../../utils/texts/app-texts.json";
 
 const Users = () => {

@@ -3,7 +3,7 @@ import { App, Button, Form, Input } from "antd";
 import AppTexts from "../../utils/texts/app-texts.json";
 import { useState } from "react";
 import { ErrorResponse } from "../../utils/types";
-import superAdminService from "../../services/superAdmin.service";
+import superAdminService from "../../services/admin.service";
 
 interface Props {
   onSuccessCallback: () => void;

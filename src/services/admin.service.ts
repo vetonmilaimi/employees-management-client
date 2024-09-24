@@ -2,7 +2,7 @@ import { Endpoint } from "../utils/api/endpoints.api";
 import { ApiFetchRequestOptions, BaseApiResponse, IUser } from "../utils/types";
 import ApiProvider from "./abstract-api.provider";
 
-export class SuperAdminService extends ApiProvider {
+export class AdminService extends ApiProvider {
   public async inviteUser(
     options: ApiFetchRequestOptions = {}
   ): Promise<BaseApiResponse<IUser>> {
@@ -22,4 +22,4 @@ export class SuperAdminService extends ApiProvider {
   }
 }
 
-export default new SuperAdminService();
+export default new AdminService();

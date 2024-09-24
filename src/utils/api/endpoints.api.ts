@@ -15,15 +15,15 @@ export const Endpoint = {
   },
   superAdmin: {
     "invite-user": {
-      url: `${API_URL}/v1/super-admin/user-invite`,
+      url: `${API_URL}/v1/admin/user-invite`,
       method: "POST",
     },
     "list-users": {
-      url: `${API_URL}/v1/super-admin/list-users`,
+      url: `${API_URL}/v1/admin/list-users`,
       method: "GET",
     },
     "delete-user": {
-      url: `${API_URL}/v1/super-admin/user-delete`,
+      url: `${API_URL}/v1/admin/user-delete`,
       method: "DELETE",
     },
   },

@@ -3,9 +3,9 @@ import { BrowserRouter } from "react-router-dom";
 import RoutesComponent from "./Routes/Routes";
 import { useSelector } from "react-redux";
 import { RootState } from "./store/store";
-import SuperAdminHeader from "./Components/SuperAdmin/SuperAdminHeader";
-import { USER_ROLES } from "./utils/constants";
 import AdminHeader from "./Components/Admin/AdminHeader";
+import { USER_ROLES } from "./utils/constants";
+import ManagerHeader from "./Components/Manager/ManagerHeader";
 import CustomModal from "./Components/UI/Modal";
 
 function App() {
@@ -27,10 +27,10 @@ function App() {
       <AntDApp>
         <BrowserRouter>
           {authSession?.session?.accessToken ? (
-            authSession?.user?.role === USER_ROLES.ADMIN ? (
-              <AdminHeader />
+            authSession?.user?.role === USER_ROLES.MANAGER ? (
+              <ManagerHeader />
             ) : (
-              <SuperAdminHeader />
+              <AdminHeader />
             )
           ) : null}
           <CustomModal />

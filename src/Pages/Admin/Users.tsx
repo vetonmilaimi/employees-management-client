@@ -52,7 +52,7 @@ const Users = () => {
             cancelText={AppTexts.global.no}
           >
             <Button
-              disabled={record.role === USER_ROLES.SUPER_ADMIN}
+              disabled={record.role === USER_ROLES.ADMIN}
               className="bg-red-500 text-white"
               type="default"
               onClick={() => {}}

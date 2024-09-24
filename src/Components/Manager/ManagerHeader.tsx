@@ -50,7 +50,7 @@ const ManagerHeader = () => {
             icon: <ProjectOutlined />,
             label: "Projects",
             onClick: () => {
-              navigate("/projects");
+              navigate("/manager/projects");
             },
           },
           {
@@ -58,7 +58,7 @@ const ManagerHeader = () => {
             icon: <ProjectOutlined />,
             label: "Employees",
             onClick: () => {
-              navigate("/employees");
+              navigate("/manager/employees");
             },
           },
           {

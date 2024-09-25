@@ -69,3 +69,9 @@ export interface IUser {
   activated: boolean;
   activateToken?: string;
 }
+
+export interface IOrganization {
+  _id: string;
+  name: string;
+  users: IUser[];
+}

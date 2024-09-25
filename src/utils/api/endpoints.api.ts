@@ -13,7 +13,7 @@ export const Endpoint = {
       },
     },
   },
-  superAdmin: {
+  admin: {
     "invite-user": {
       url: `${API_URL}/v1/admin/user-invite`,
       method: "POST",
@@ -25,6 +25,12 @@ export const Endpoint = {
     "delete-user": {
       url: `${API_URL}/v1/admin/user-delete`,
       method: "DELETE",
+    },
+  },
+  organization: {
+    about: {
+      url: `${API_URL}/v1/organization/about`,
+      method: "GET",
     },
   },
 };

@@ -16,6 +16,7 @@ import {
   BankOutlined,
   LogoutOutlined,
   ProjectOutlined,
+  UserOutlined,
 } from "@ant-design/icons";
 
 interface IMainHeaderProps {
@@ -50,7 +51,7 @@ const MainHeader = ({ authSession }: IMainHeaderProps) => {
         },
         {
           key: "/admin/users",
-          icon: <BankOutlined />,
+          icon: <UserOutlined />,
           label: "Users",
           onClick: () => navigate("/admin/users"),
         },

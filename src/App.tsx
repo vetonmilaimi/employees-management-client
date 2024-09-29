@@ -1,12 +1,10 @@
 import { ConfigProvider, App as AntDApp } from "antd";
 import { BrowserRouter } from "react-router-dom";
 import RoutesComponent from "./Routes/Routes";
-import { useSelector } from "react-redux";
-import { RootState } from "./store/store";
-import AdminHeader from "./Components/Admin/AdminHeader";
-import { USER_ROLES } from "./utils/constants";
-import ManagerHeader from "./Components/Manager/ManagerHeader";
 import CustomModal from "./Components/UI/Modal";
+import MainHeader from "./Components/UI/MainHeader";
+import { RootState } from "./store/store";
+import { useSelector } from "react-redux";
 
 function App() {
   const authSession = useSelector((state: RootState) => state.auth.value);
@@ -26,13 +24,9 @@ function App() {
     >
       <AntDApp>
         <BrowserRouter>
-          {authSession?.session?.accessToken ? (
-            authSession?.user?.role === USER_ROLES.MANAGER ? (
-              <ManagerHeader />
-            ) : (
-              <AdminHeader />
-            )
-          ) : null}
+          {authSession?.session?.accessToken && (
+            <MainHeader authSession={authSession} />
+          )}
           <CustomModal />
           <RoutesComponent />
         </BrowserRouter>

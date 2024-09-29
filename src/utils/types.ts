@@ -69,3 +69,16 @@ export interface IUser {
   activated: boolean;
   activateToken?: string;
 }
+
+export interface IOrganization {
+  _id: string;
+  name: string;
+  users: IUser[];
+}
+
+export interface IMainHeaderItem {
+  key: string;
+  icon: JSX.Element;
+  label: string;
+  onClick: () => void;
+}

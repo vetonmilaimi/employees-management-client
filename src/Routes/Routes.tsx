@@ -7,20 +7,23 @@ import NonAuthRoute from "./NonAuthRoute";
 import Employees from "../Pages/Manager/Employees";
 import Users from "../Pages/Admin/Users";
 import Activate from "../Pages/Auth/Activate";
+import Organization from "../Pages/Manager/Organization";
 
 export default function RoutesComponent() {
   return (
     <Routes>
       <Route path="/" element={<Navigate to="/auth/login" />} />
 
-      <Route
-        path="auth/login"
-        element={
-          <NonAuthRoute>
-            <Login />
-          </NonAuthRoute>
-        }
-      />
+      <Route path="auth">
+        <Route
+          path="login"
+          element={
+            <NonAuthRoute>
+              <Login />
+            </NonAuthRoute>
+          }
+        />
+      </Route>
 
       <Route
         path="activate"
@@ -54,7 +57,7 @@ export default function RoutesComponent() {
       </Route>
 
       {/* 
-          Admin Routes
+          Manager Routes
       */}
       <Route path="manager">
         <Route
@@ -71,6 +74,15 @@ export default function RoutesComponent() {
           element={
             <PrivateRoute>
               <Employees />
+            </PrivateRoute>
+          }
+        />
+
+        <Route
+          path="organization"
+          element={
+            <PrivateRoute>
+              <Organization />
             </PrivateRoute>
           }
         />

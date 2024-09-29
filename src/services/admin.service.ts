@@ -6,19 +6,19 @@ export class AdminService extends ApiProvider {
   public async inviteUser(
     options: ApiFetchRequestOptions = {}
   ): Promise<BaseApiResponse<IUser>> {
-    return this.callApi(Endpoint.superAdmin["invite-user"], options);
+    return this.callApi(Endpoint.admin["invite-user"], options);
   }
 
   public async listUsers(
     options: ApiFetchRequestOptions = {}
   ): Promise<BaseApiResponse<IUser[]>> {
-    return this.callApi(Endpoint.superAdmin["list-users"], options);
+    return this.callApi(Endpoint.admin["list-users"], options);
   }
 
   public async deleteUser(
     options: ApiFetchRequestOptions = {}
   ): Promise<BaseApiResponse<object>> {
-    return this.callApi(Endpoint.superAdmin["delete-user"], options);
+    return this.callApi(Endpoint.admin["delete-user"], options);
   }
 }
 

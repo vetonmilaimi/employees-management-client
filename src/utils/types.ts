@@ -75,3 +75,10 @@ export interface IOrganization {
   name: string;
   users: IUser[];
 }
+
+export interface IMainHeaderItem {
+  key: string;
+  icon: JSX.Element;
+  label: string;
+  onClick: () => void;
+}

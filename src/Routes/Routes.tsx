@@ -14,14 +14,16 @@ export default function RoutesComponent() {
     <Routes>
       <Route path="/" element={<Navigate to="/auth/login" />} />
 
-      <Route
-        path="auth/login"
-        element={
-          <NonAuthRoute>
-            <Login />
-          </NonAuthRoute>
-        }
-      />
+      <Route path="auth">
+        <Route
+          path="login"
+          element={
+            <NonAuthRoute>
+              <Login />
+            </NonAuthRoute>
+          }
+        />
+      </Route>
 
       <Route
         path="activate"

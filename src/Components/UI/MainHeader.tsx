@@ -41,22 +41,7 @@ const MainHeader = ({ authSession }: IMainHeaderProps) => {
   };
 
   const MainHeaderItems: IMainHeaderItem[] = useMemo(() => {
-    if (authSession?.user.role === USER_ROLES.ADMIN) {
-      return [
-        {
-          key: "/admin/organizations",
-          icon: <BankOutlined />,
-          label: "Organizations",
-          onClick: () => navigate("/admin/organizations"),
-        },
-        {
-          key: "/admin/users",
-          icon: <UserOutlined />,
-          label: "Users",
-          onClick: () => navigate("/admin/users"),
-        },
-      ];
-    } else if (authSession?.user?.role === USER_ROLES.MANAGER) {
+    if (authSession?.user.role === USER_ROLES.MANAGER) {
       return [
         {
           key: "/manager/projects",
@@ -81,6 +66,21 @@ const MainHeader = ({ authSession }: IMainHeaderProps) => {
           onClick: () => {
             navigate("/manager/organization");
           },
+        },
+      ];
+    } else if (authSession?.user?.role === USER_ROLES.ADMIN) {
+      return [
+        {
+          key: "/admin/organizations",
+          icon: <BankOutlined />,
+          label: "Organizations",
+          onClick: () => navigate("/admin/organizations"),
+        },
+        {
+          key: "/admin/users",
+          icon: <UserOutlined />,
+          label: "Users",
+          onClick: () => navigate("/admin/users"),
         },
       ];
     } else {

@@ -12,6 +12,18 @@ export class OrganizationService extends ApiProvider {
   ): Promise<BaseApiResponse<IOrganization>> {
     return this.callApi(Endpoint.organization.about, options);
   }
+
+  public async add(
+    options: ApiFetchRequestOptions = {}
+  ): Promise<BaseApiResponse<IOrganization>> {
+    return this.callApi(Endpoint.organization.add, options);
+  }
+
+  public async update(
+    options: ApiFetchRequestOptions = {}
+  ): Promise<BaseApiResponse<IOrganization>> {
+    return this.callApi(Endpoint.organization.update, options);
+  }
 }
 
 export default new OrganizationService();

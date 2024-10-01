@@ -32,5 +32,13 @@ export const Endpoint = {
       url: `${API_URL}/v1/organization/about`,
       method: "GET",
     },
+    add: {
+      url: `${API_URL}/v1/organization/create`,
+      method: "POST",
+    },
+    update: {
+      url: `${API_URL}/v1/organization/update`,
+      method: "POST",
+    },
   },
 };

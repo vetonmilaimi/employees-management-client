@@ -73,6 +73,7 @@ export interface IUser {
 export interface IOrganization {
   _id: string;
   name: string;
+  description: string;
   users: IUser[];
 }
 

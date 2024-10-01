@@ -8,6 +8,7 @@ import Employees from "../Pages/Manager/Employees";
 import Users from "../Pages/Admin/Users";
 import Activate from "../Pages/Auth/Activate";
 import Organization from "../Pages/Manager/Organization";
+import AddOrganization from "../Pages/Manager/AddOrganization";
 
 export default function RoutesComponent() {
   return (
@@ -60,6 +61,15 @@ export default function RoutesComponent() {
           Manager Routes
       */}
       <Route path="manager">
+        <Route
+          path="add-organization"
+          element={
+            <PrivateRoute>
+              <AddOrganization />
+            </PrivateRoute>
+          }
+        />
+
         <Route
           path="projects"
           element={

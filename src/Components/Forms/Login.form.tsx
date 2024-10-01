@@ -7,6 +7,8 @@ import userService from "../../services/user.service";
 import { USER_ROLES } from "../../utils/constants";
 import { useState } from "react";
 import { ErrorResponse } from "../../utils/types";
+import organizationService from "../../services/organization.service";
+import { OrganizationSliceReducers } from "../../store/slices/organization.slice";
 
 const LoginForm = () => {
   const { notification } = App.useApp();
@@ -19,13 +21,27 @@ const LoginForm = () => {
     try {
       const response = await userService.login({ data });
       dispatch(AuthSliceReducers.login(response.message));
-      navigate(
-        `${
-          response.message.user.role === USER_ROLES.ADMIN
-            ? "/"
-            : "/super-admin/organizations"
-        }`
-      );
+
+      if (response?.message?.user?.role === USER_ROLES.ADMIN) {
+        navigate("/admin/users");
+      }
+
+      if (response?.message?.user?.role === USER_ROLES.MANAGER) {
+        /*
+          Check this inside try catch block, 
+          maybe from API it's better if I don't return error when an organization not found
+        */
+        try {
+          const organizationResponse = await organizationService.about();
+          dispatch(OrganizationSliceReducers.set(organizationResponse.message));
+
+          if (organizationResponse.message) {
+            navigate("/manager/projects");
+          }
+        } catch (error) {
+          navigate("/manager/add-organization");
+        }
+      }
     } catch (error: unknown) {
       notification.error({
         message: (error as ErrorResponse).name,

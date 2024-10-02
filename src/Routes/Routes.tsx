@@ -9,6 +9,7 @@ import Users from "../Pages/Admin/Users";
 import Activate from "../Pages/Auth/Activate";
 import Organization from "../Pages/Manager/Organization";
 import AddOrganization from "../Pages/Manager/AddOrganization";
+import NotFound from "../Components/UI/NotFound";
 
 export default function RoutesComponent() {
   return (
@@ -97,6 +98,7 @@ export default function RoutesComponent() {
           }
         />
       </Route>
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 }

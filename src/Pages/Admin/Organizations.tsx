@@ -1,4 +1,5 @@
 import { Typography } from "antd";
+import withAdmin from "../../utils/enhancers/withAdmin";
 
 const Organizations = () => {
   return (
@@ -14,4 +15,5 @@ const Organizations = () => {
   );
 };
 
-export default Organizations;
+const AdminOrganizations = withAdmin(Organizations);
+export default AdminOrganizations;

@@ -7,6 +7,7 @@ import { store } from "../../store/store";
 import AddUser from "../../Components/Forms/AddUser.form";
 import superAdminService from "../../services/admin.service";
 import AppTexts from "../../utils/texts/app-texts.json";
+import withAdmin from "../../utils/enhancers/withAdmin";
 
 const Users = () => {
   const [users, setUsers] = useState<IUser[]>([]);
@@ -144,4 +145,5 @@ const Users = () => {
   );
 };
 
-export default Users;
+const AdminUsers = withAdmin(Users);
+export default AdminUsers;

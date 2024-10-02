@@ -1,5 +1,8 @@
+import withManager from "../../utils/enhancers/withManager";
+
 const Projects = () => {
   return <div>Projects</div>;
 };
 
-export default Projects;
+const ManagerProjects = withManager(Projects);
+export default ManagerProjects;

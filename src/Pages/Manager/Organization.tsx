@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import { OrganizationSliceReducers } from "../../store/slices/organization.slice";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
+import withManager from "../../utils/enhancers/withManager";
 
 const Organization = () => {
   const dispatch = useDispatch();
@@ -41,4 +42,5 @@ const Organization = () => {
   );
 };
 
-export default Organization;
+const ManagerOrganization = withManager(Organization);
+export default ManagerOrganization;

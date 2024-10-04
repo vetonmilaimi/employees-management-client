@@ -3,6 +3,7 @@ import {
   ApiFetchRequestOptions,
   BaseApiResponse,
   IOrganization,
+  IUser,
 } from "../utils/types";
 import ApiProvider from "./abstract-api.provider";
 
@@ -23,6 +24,18 @@ export class OrganizationService extends ApiProvider {
     options: ApiFetchRequestOptions = {}
   ): Promise<BaseApiResponse<IOrganization>> {
     return this.callApi(Endpoint.organization.update, options);
+  }
+
+  public async addEmployee(
+    options: ApiFetchRequestOptions = {}
+  ): Promise<BaseApiResponse<IOrganization>> {
+    return this.callApi(Endpoint.organization["add-employee"], options);
+  }
+
+  public async listEmployees(
+    options: ApiFetchRequestOptions = {}
+  ): Promise<BaseApiResponse<IUser[]>> {
+    return this.callApi(Endpoint.organization["list-employees"], options);
   }
 }
 

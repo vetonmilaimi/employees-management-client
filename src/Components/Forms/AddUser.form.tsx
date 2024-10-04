@@ -4,19 +4,25 @@ import AppTexts from "../../utils/texts/app-texts.json";
 import { useState } from "react";
 import { ErrorResponse } from "../../utils/types";
 import superAdminService from "../../services/admin.service";
+import { USER_ROLES } from "../../utils/constants";
+import organizationService from "../../services/organization.service";
 
 interface Props {
   onSuccessCallback: () => void;
+  currentRole: USER_ROLES;
 }
 
-const AddUser = ({ onSuccessCallback }: Props) => {
+const AddUser = ({ onSuccessCallback, currentRole }: Props) => {
   const { notification } = App.useApp();
   const [loading, setLoading] = useState(false);
 
   const onSubmit = async (data: object) => {
     setLoading(true);
     try {
-      const response = await superAdminService.inviteUser({ data });
+      const response =
+        currentRole === USER_ROLES.ADMIN
+          ? await superAdminService.inviteUser({ data })
+          : await organizationService.addEmployee({ data });
       if (!response.error) onSuccessCallback();
     } catch (error) {
       notification.error({
@@ -30,7 +36,9 @@ const AddUser = ({ onSuccessCallback }: Props) => {
 
   return (
     <div className="px-5 py-3 border-">
-      <h1 className="text-xl mb-1 text-secondary">Add a user</h1>
+      <h1 className="text-xl mb-1 text-secondary">
+        Add a {currentRole === USER_ROLES.ADMIN ? "user" : "employee"}
+      </h1>
       <Form name="add-user-form" onFinish={onSubmit}>
         <Form.Item
           name="firstName"

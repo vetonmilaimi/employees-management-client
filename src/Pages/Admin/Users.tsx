@@ -22,6 +22,7 @@ const Users = () => {
       GlobalSliceReducers.showModal({
         component: (
           <AddUser
+            currentRole={auth?.user?.role}
             onSuccessCallback={() => {
               store.dispatch(GlobalSliceReducers.closeModal());
               getUsers();

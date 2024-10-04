@@ -1,13 +1,13 @@
 import withManager from "../../utils/enhancers/withManager";
 import { App, Button } from "antd";
-
-import AppTexts from "../../utils/texts/app-texts.json";
 import CustomUsersTable from "../../Components/UI/CustomUsersTable";
 import { useSelector } from "react-redux";
-import { RootState } from "../../store/store";
+import { RootState, store } from "../../store/store";
 import { ErrorResponse, IUser } from "../../utils/types";
 import { useEffect, useState } from "react";
-import adminService from "../../services/admin.service";
+import organizationService from "../../services/organization.service";
+import { GlobalSliceReducers } from "../../store/slices/global.slice";
+import AddUser from "../../Components/Forms/AddUser.form";
 
 const Employees = () => {
   const { notification } = App.useApp();
@@ -18,7 +18,7 @@ const Employees = () => {
 
   const getUsers = async () => {
     try {
-      const response = await adminService.listUsers();
+      const response = await organizationService.listEmployees();
       setUsers(
         response.message.map((el) => {
           return { ...el, key: el._id };
@@ -34,6 +34,22 @@ const Employees = () => {
     }
   };
 
+  const addEmployee = () => {
+    store.dispatch(
+      GlobalSliceReducers.showModal({
+        component: (
+          <AddUser
+            currentRole={auth?.user?.role}
+            onSuccessCallback={() => {
+              store.dispatch(GlobalSliceReducers.closeModal());
+              getUsers();
+            }}
+          />
+        ),
+      })
+    );
+  };
+
   useEffect(() => {
     getUsers();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -42,8 +58,8 @@ const Employees = () => {
   return (
     <div className="flex-col justify-center overflow-hidden max-w-[80%] mx-auto">
       <div className="max-w-100 py-3 px-1 my-2 bg-white flex justify-end rounded-md">
-        <Button type="primary" onClick={() => {}}>
-          {AppTexts.users_page["add-user"]}
+        <Button type="primary" onClick={addEmployee}>
+          Add Employee
         </Button>
       </div>
       <CustomUsersTable

@@ -50,6 +50,10 @@ function CustomUsersTable({
       },
       hidden: currentRole !== USER_ROLES.ADMIN,
     },
+    /*
+      TODO: There are some cases when we delete a user, we should also delete
+      organization, and employees if an employee is member of just that organization
+    */
     {
       title: "Action",
       key: "action",
@@ -63,7 +67,11 @@ function CustomUsersTable({
             cancelText={AppTexts.global.no}
           >
             <Button
-              disabled={record.role === USER_ROLES.ADMIN}
+              disabled={
+                record.role === USER_ROLES.ADMIN ||
+                (currentRole === USER_ROLES.MANAGER &&
+                  record.role === USER_ROLES.MANAGER)
+              }
               className="bg-red-500 text-white"
               type="default"
               onClick={() => {}}

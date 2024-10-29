@@ -32,11 +32,13 @@ class Api {
 
     const state = store.getState();
     const authState = state.auth;
+    const organizationState = state.organization;
 
     const isFormData = data instanceof FormData;
 
     const ourHeaders = new Headers({
       "access-token": authState?.value?.session?.accessToken,
+      "organization-id": organizationState?.value?._id,
       ...(headers ?? {}),
     });
 

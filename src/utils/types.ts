@@ -83,3 +83,10 @@ export interface IMainHeaderItem {
   label: string;
   onClick: () => void;
 }
+
+export interface IProject {
+  _id: string;
+  name: string;
+  description?: string;
+  organization: string;
+}

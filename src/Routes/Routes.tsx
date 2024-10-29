@@ -1,15 +1,18 @@
+import { lazy } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
+
 import PrivateRoute from "./PrivateRoute";
-import Organizations from "../Pages/Admin/Organizations";
-import Projects from "../Pages/Manager/Projects";
-import Login from "../Pages/Auth/Login";
 import NonAuthRoute from "./NonAuthRoute";
-import Employees from "../Pages/Manager/Employees";
-import Users from "../Pages/Admin/Users";
-import Activate from "../Pages/Auth/Activate";
-import Organization from "../Pages/Manager/Organization";
-import AddOrganization from "../Pages/Manager/AddOrganization";
-import NotFound from "../Components/UI/NotFound";
+
+const Organizations = lazy(() => import("../Pages/Admin/Organizations"));
+const Login = lazy(() => import("../Pages/Auth/Login"));
+const Employees = lazy(() => import("../Pages/Manager/Employees"));
+const Users = lazy(() => import("../Pages/Admin/Users"));
+const Activate = lazy(() => import("../Pages/Auth/Activate"));
+const Organization = lazy(() => import("../Pages/Manager/Organization"));
+const AddOrganization = lazy(() => import("../Pages/Manager/AddOrganization"));
+const NotFound = lazy(() => import("../Components/UI/NotFound"));
+const Projects = lazy(() => import("../Pages/Manager/Projects"));
 
 export default function RoutesComponent() {
   return (

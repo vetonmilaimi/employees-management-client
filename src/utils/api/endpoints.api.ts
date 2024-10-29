@@ -49,4 +49,10 @@ export const Endpoint = {
       method: "GET",
     },
   },
+  projects: {
+    list: {
+      url: `${API_URL}/v1/project/list`,
+      method: "GET",
+    },
+  },
 };

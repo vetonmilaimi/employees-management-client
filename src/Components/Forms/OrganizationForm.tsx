@@ -8,6 +8,7 @@ import organizationService from "../../services/organization.service";
 import { OrganizationSliceReducers } from "../../store/slices/organization.slice";
 import { ErrorResponse, IOrganization } from "../../utils/types";
 import { useForm } from "antd/es/form/Form";
+import TextArea from "antd/es/input/TextArea";
 
 interface Props {
   onSuccessCallback?: () => void;
@@ -81,7 +82,10 @@ const OrganizationForm = ({
           },
         ]}
       >
-        <Input placeholder="Organization Description" />
+        <TextArea
+          placeholder="Organization Description"
+          autoSize={{ minRows: 3, maxRows: 6 }}
+        />
       </Form.Item>
 
       <div className="flex justify-end">

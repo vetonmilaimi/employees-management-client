@@ -13,7 +13,6 @@ const Organization = () => {
     (state: RootState) => state.organization.value
   );
 
-  // TODO: Make a global state for organization
   const loadOrganization = async () => {
     try {
       const response = await organizationService.about();

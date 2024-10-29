@@ -27,18 +27,11 @@ const LoginForm = () => {
       }
 
       if (response?.message?.user?.role === USER_ROLES.MANAGER) {
-        /*
-          Check this inside try catch block, 
-          maybe from API it's better if I don't return error when an organization not found
-        */
-        try {
-          const organizationResponse = await organizationService.about();
+        const organizationResponse = await organizationService.about();
+        if (organizationResponse.message) {
           dispatch(OrganizationSliceReducers.set(organizationResponse.message));
-
-          if (organizationResponse.message) {
-            navigate("/manager/projects");
-          }
-        } catch (error) {
+          navigate("/manager/projects");
+        } else {
           navigate("/manager/add-organization");
         }
       }

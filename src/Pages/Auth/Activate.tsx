@@ -1,5 +1,5 @@
 import AppTexts from "../../utils/texts/app-texts.json";
-import ResetPassword from "../../Components/Forms/ResetPassword";
+import ResetPassword from "../../Components/Forms/ResetPassword.form";
 
 const Activate = () => {
   return (

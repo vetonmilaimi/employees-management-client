@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import organizationService from "../../services/organization.service";
-import OrganizationForm from "../../Components/Forms/OrganizationForm";
+import OrganizationForm from "../../Components/Forms/Organization.form";
 import { useDispatch } from "react-redux";
 import { OrganizationSliceReducers } from "../../store/slices/organization.slice";
 import { useSelector } from "react-redux";

@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import OrganizationForm from "../../Components/Forms/OrganizationForm";
+import OrganizationForm from "../../Components/Forms/Organization.form";
 import withManager from "../../utils/enhancers/withManager";
 import { RootState } from "../../store/store";
 import { useNavigate } from "react-router-dom";

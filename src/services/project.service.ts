@@ -12,6 +12,24 @@ export class ProjectService extends ApiProvider {
   ): Promise<BaseApiResponse<IProject[]>> {
     return this.callApi(Endpoint.projects.list, options);
   }
+
+  public async add(
+    options: ApiFetchRequestOptions = {}
+  ): Promise<BaseApiResponse<IProject>> {
+    return this.callApi(Endpoint.projects.create, options);
+  }
+
+  public async update(
+    options: ApiFetchRequestOptions = {}
+  ): Promise<BaseApiResponse<IProject>> {
+    return this.callApi(Endpoint.projects.update, options);
+  }
+
+  public async delete(
+    options: ApiFetchRequestOptions = {}
+  ): Promise<BaseApiResponse<boolean>> {
+    return this.callApi(Endpoint.projects.delete, options);
+  }
 }
 
 export default new ProjectService();

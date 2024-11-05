@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
+import { Button } from "antd";
+
 import projectService from "../../services/project.service";
 import { IProject } from "../../utils/types";
-import { Button } from "antd";
 import ListProjectsTable from "../../Components/UI/ListProjectsTable";
 import { store } from "../../store/store";
 import { GlobalSliceReducers } from "../../store/slices/global.slice";
 import withManager from "../../utils/enhancers/withManager";
+import ProjectsForm from "../../Components/Forms/Projects.form";
 
 const Projects = () => {
   const [projects, setProjects] = useState<IProject[]>([]);
@@ -25,7 +27,14 @@ const Projects = () => {
   const addProject = () => {
     store.dispatch(
       GlobalSliceReducers.showModal({
-        component: <h1>Add Project Here</h1>,
+        component: (
+          <ProjectsForm
+            onSuccessCallback={() => {
+              store.dispatch(GlobalSliceReducers.closeModal());
+              loadProjects();
+            }}
+          />
+        ),
       })
     );
   };
@@ -41,7 +50,11 @@ const Projects = () => {
           Add Project
         </Button>
       </div>
-      <ListProjectsTable loading={loading} projects={projects} />
+      <ListProjectsTable
+        loadProjects={loadProjects}
+        loading={loading}
+        projects={projects}
+      />
     </div>
   );
 };

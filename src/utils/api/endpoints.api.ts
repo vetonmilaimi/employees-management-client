@@ -54,5 +54,17 @@ export const Endpoint = {
       url: `${API_URL}/v1/project/list`,
       method: "GET",
     },
+    create: {
+      url: `${API_URL}/v1/project/create`,
+      method: "POST",
+    },
+    update: {
+      url: `${API_URL}/v1/project/update`,
+      method: "POST",
+    },
+    delete: {
+      url: `${API_URL}/v1/project/delete`,
+      method: "POST",
+    },
   },
 };

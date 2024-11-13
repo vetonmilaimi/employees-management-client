@@ -14,6 +14,10 @@ export const Endpoint = {
     },
   },
   admin: {
+    "list-organizations": {
+      url: `${API_URL}/v1/admin/list-organizations`,
+      method: "GET",
+    },
     "invite-user": {
       url: `${API_URL}/v1/admin/user-invite`,
       method: "POST",

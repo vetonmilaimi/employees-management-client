@@ -1,5 +1,10 @@
 import { Endpoint } from "../utils/api/endpoints.api";
-import { ApiFetchRequestOptions, BaseApiResponse, IUser } from "../utils/types";
+import {
+  ApiFetchRequestOptions,
+  BaseApiResponse,
+  IOrganization,
+  IUser,
+} from "../utils/types";
 import ApiProvider from "./abstract-api.provider";
 
 export class AdminService extends ApiProvider {
@@ -13,6 +18,12 @@ export class AdminService extends ApiProvider {
     options: ApiFetchRequestOptions = {}
   ): Promise<BaseApiResponse<IUser[]>> {
     return this.callApi(Endpoint.admin["list-users"], options);
+  }
+
+  public async listOrganizations(
+    options: ApiFetchRequestOptions = {}
+  ): Promise<BaseApiResponse<IOrganization[]>> {
+    return this.callApi(Endpoint.admin["list-organizations"], options);
   }
 
   public async deleteUser(

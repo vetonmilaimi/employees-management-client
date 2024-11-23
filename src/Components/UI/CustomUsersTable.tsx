@@ -1,6 +1,6 @@
 import { App, Button, Popconfirm, Space, Table, TableProps } from "antd";
 import { ErrorResponse, IUser } from "../../utils/types";
-import { APP_URL, USER_ROLES } from "../../utils/constants";
+import { USER_ROLES } from "../../utils/constants";
 import AppTexts from "../../utils/texts/app-texts.json";
 import adminService from "../../services/admin.service";
 
@@ -38,14 +38,14 @@ function CustomUsersTable({
       key: "role",
     },
     {
-      title: "Activation Status",
+      title: "Status",
       dataIndex: "verifyToken",
       key: "verifyToken",
       render: (_, record) => {
-        if (record.activateToken) {
-          return `${APP_URL}/activate?token=${record.activateToken}`;
+        if (record.activated === false) {
+          return <span className="text-red-500">Pending...</span>;
         } else {
-          return <>Activated</>;
+          return <span className="text-primary">Activated</span>;
         }
       },
       hidden: currentRole !== USER_ROLES.ADMIN,

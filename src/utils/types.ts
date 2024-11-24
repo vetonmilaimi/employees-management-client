@@ -90,3 +90,15 @@ export interface IProject {
   description?: string;
   organization: string;
 }
+
+export enum PageTabButtonTypes {
+  BUTTON = "button",
+  LINK = "link",
+}
+
+export type PageTabItems = {
+  label: string;
+  onClick: () => void;
+  // By default, the type is a button
+  type?: PageTabButtonTypes;
+};

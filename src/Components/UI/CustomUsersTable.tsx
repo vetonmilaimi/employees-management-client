@@ -3,6 +3,7 @@ import { ErrorResponse, IUser } from "../../utils/types";
 import { USER_ROLES } from "../../utils/constants";
 import AppTexts from "../../utils/texts/app-texts.json";
 import adminService from "../../services/admin.service";
+import organizationService from "../../services/organization.service";
 
 interface ICustomUsersTableProps {
   loading: boolean;
@@ -87,11 +88,18 @@ function CustomUsersTable({
   const deleteUser = async (_id: string) => {
     setLoading(true);
     try {
-      const response = await adminService.deleteUser({
-        query: {
-          _id,
-        },
-      });
+      const response =
+        currentRole === USER_ROLES.ADMIN
+          ? await adminService.deleteUser({
+              query: {
+                _id,
+              },
+            })
+          : await organizationService.deleteEmployee({
+              query: {
+                _id,
+              },
+            });
       if (!response.error) getUsers();
     } catch (error) {
       notification.error({

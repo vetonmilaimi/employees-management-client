@@ -102,3 +102,14 @@ export type PageTabItems = {
   // By default, the type is a button
   type?: PageTabButtonTypes;
 };
+
+export interface IJobEvent {
+  _id: string;
+  title: string;
+  project: string;
+  manager: string;
+  description?: string;
+  employees?: string[];
+  start?: Date;
+  end?: Date;
+}

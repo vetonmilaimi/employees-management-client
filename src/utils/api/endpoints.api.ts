@@ -75,4 +75,10 @@ export const Endpoint = {
       method: "POST",
     },
   },
+  "job-events": {
+    list: {
+      url: `${API_URL}/v1/job-events/list`,
+      method: "GET",
+    },
+  },
 };

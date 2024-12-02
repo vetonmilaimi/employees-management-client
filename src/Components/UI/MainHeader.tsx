@@ -1,6 +1,14 @@
-import { App, Menu, Typography } from "antd";
 import { useNavigate } from "react-router-dom";
+import { App, Menu, Typography } from "antd";
 import { Header } from "antd/es/layout/layout";
+import {
+  BankOutlined,
+  LogoutOutlined,
+  ProfileOutlined,
+  ProjectOutlined,
+  UserOutlined,
+} from "@ant-design/icons";
+
 import AppIcon from "../../../assets/app-icon.svg";
 import {
   AuthUserSlice,
@@ -12,12 +20,6 @@ import { AuthSliceReducers } from "../../store/slices/auth.slice";
 import { store } from "../../store/store";
 import { useMemo } from "react";
 import { USER_ROLES } from "../../utils/constants";
-import {
-  BankOutlined,
-  LogoutOutlined,
-  ProjectOutlined,
-  UserOutlined,
-} from "@ant-design/icons";
 
 interface IMainHeaderProps {
   authSession: AuthUserSlice;
@@ -44,6 +46,14 @@ const MainHeader = ({ authSession }: IMainHeaderProps) => {
     if (authSession?.user.role === USER_ROLES.MANAGER) {
       return [
         {
+          key: "/manager/job-events",
+          icon: <ProfileOutlined />,
+          label: "Job Events",
+          onClick: () => {
+            navigate("/manager/job-events");
+          },
+        },
+        {
           key: "/manager/projects",
           icon: <ProjectOutlined />,
           label: "Projects",
@@ -53,7 +63,7 @@ const MainHeader = ({ authSession }: IMainHeaderProps) => {
         },
         {
           key: "/manager/employees",
-          icon: <ProjectOutlined />,
+          icon: <UserOutlined />,
           label: "Employees",
           onClick: () => {
             navigate("/manager/employees");

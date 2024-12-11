@@ -44,6 +44,10 @@ export const Endpoint = {
       url: `${API_URL}/v1/organization/update`,
       method: "POST",
     },
+    delete: {
+      url: `${API_URL}/v1/organization/delete-employee`,
+      method: "POST",
+    },
     "add-employee": {
       url: `${API_URL}/v1/organization/add-employee`,
       method: "POST",
@@ -69,6 +73,12 @@ export const Endpoint = {
     delete: {
       url: `${API_URL}/v1/project/delete`,
       method: "POST",
+    },
+  },
+  "job-events": {
+    list: {
+      url: `${API_URL}/v1/job-events/list`,
+      method: "GET",
     },
   },
 };

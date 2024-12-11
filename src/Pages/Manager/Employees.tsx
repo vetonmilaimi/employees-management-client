@@ -1,13 +1,14 @@
 import withManager from "../../utils/enhancers/withManager";
-import { App, Button } from "antd";
+import { App } from "antd";
 import CustomUsersTable from "../../Components/UI/CustomUsersTable";
 import { useSelector } from "react-redux";
 import { RootState, store } from "../../store/store";
-import { ErrorResponse, IUser } from "../../utils/types";
+import { ErrorResponse, IUser, PageTabItems } from "../../utils/types";
 import { useEffect, useState } from "react";
 import organizationService from "../../services/organization.service";
 import { GlobalSliceReducers } from "../../store/slices/global.slice";
 import AddUser from "../../Components/Forms/AddUser.form";
+import PageTabHeader from "../../Components/UI/PageTabHeader";
 
 const Employees = () => {
   const { notification } = App.useApp();
@@ -50,6 +51,13 @@ const Employees = () => {
     );
   };
 
+  const tabHeaderItems: PageTabItems[] = [
+    {
+      label: "Add new",
+      onClick: addEmployee,
+    },
+  ];
+
   useEffect(() => {
     getUsers();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -57,11 +65,7 @@ const Employees = () => {
 
   return (
     <div className="flex-col justify-center overflow-hidden max-w-[80%] mx-auto">
-      <div className="max-w-100 py-3 px-1 my-2 bg-white flex justify-end rounded-md">
-        <Button type="primary" onClick={addEmployee}>
-          Add Employee
-        </Button>
-      </div>
+      <PageTabHeader title="Employees" items={tabHeaderItems} />
       <CustomUsersTable
         loading={loading}
         getUsers={getUsers}

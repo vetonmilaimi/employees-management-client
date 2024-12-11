@@ -115,6 +115,7 @@ const ListProjectsTable = ({
       dataSource={projects}
       // TODO: Change pagination to true, and handle on backend also
       pagination={false}
+      bordered
     />
   );
 };

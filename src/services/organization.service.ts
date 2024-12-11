@@ -37,6 +37,12 @@ export class OrganizationService extends ApiProvider {
   ): Promise<BaseApiResponse<IUser[]>> {
     return this.callApi(Endpoint.organization["list-employees"], options);
   }
+
+  public async deleteEmployee(
+    options: ApiFetchRequestOptions = {}
+  ): Promise<BaseApiResponse<boolean>> {
+    return this.callApi(Endpoint.organization.delete, options);
+  }
 }
 
 export default new OrganizationService();

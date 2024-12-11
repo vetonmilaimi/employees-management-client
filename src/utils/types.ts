@@ -31,10 +31,17 @@ export interface ErrorResponse {
   details: object;
 }
 
+export enum MODAL_SIZES {
+  SMALL = "sm",
+  MEDIUM = "md",
+  LARGE = "lg",
+}
+
 export interface IGlobalSlice {
   modal: {
     visible: boolean;
     component: JSX.Element | null;
+    size: MODAL_SIZES;
   };
 }
 
@@ -89,4 +96,27 @@ export interface IProject {
   name: string;
   description?: string;
   organization: string;
+}
+
+export enum PageTabButtonTypes {
+  BUTTON = "button",
+  LINK = "link",
+}
+
+export type PageTabItems = {
+  label: string;
+  onClick: () => void;
+  // By default, the type is a button
+  type?: PageTabButtonTypes;
+};
+
+export interface IJobEvent {
+  _id: string;
+  title: string;
+  project: string;
+  manager: string;
+  description?: string;
+  employees?: string[];
+  start?: Date;
+  end?: Date;
 }

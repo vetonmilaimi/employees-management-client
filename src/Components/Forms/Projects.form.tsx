@@ -37,7 +37,7 @@ const ProjectsForm = ({ onSuccessCallback, edit, project }: Props) => {
   };
 
   return (
-    <div className="px-5 border-">
+    <div className="px-5">
       <h1 className="text-xl mb-1 text-secondary">
         {edit ? "Edit project" : "Add a project"}
       </h1>

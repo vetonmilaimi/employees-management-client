@@ -9,7 +9,7 @@ interface IPageTabHeaderProps {
 const PageTabHeader = ({ title, items }: IPageTabHeaderProps) => {
   return (
     <div className="max-w-100 py-3 px-3 my-2 bg-white flex justify-between items-center rounded-md">
-      <h1 className="text-l">{title}</h1>
+      <h1 className="text-l text-background">{title}</h1>
       <div className="max-w-90 flex justify-end gap-2 items-center">
         {items.map((item) => {
           if (item.type === PageTabButtonTypes.LINK) {

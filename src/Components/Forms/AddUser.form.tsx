@@ -35,7 +35,7 @@ const AddUser = ({ onSuccessCallback, currentRole }: Props) => {
   };
 
   return (
-    <div className="px-5 border-">
+    <div className="px-5">
       <h1 className="text-xl mb-1 text-secondary">
         Add a {currentRole === USER_ROLES.ADMIN ? "user" : "employee"}
       </h1>

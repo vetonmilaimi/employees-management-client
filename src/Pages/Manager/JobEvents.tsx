@@ -1,11 +1,12 @@
 import withManager from "../../utils/enhancers/withManager";
 import PageTabHeader from "../../Components/UI/PageTabHeader";
-import { IJobEvent, PageTabButtonTypes } from "../../utils/types";
+import { IJobEvent, MODAL_SIZES, PageTabButtonTypes } from "../../utils/types";
 import JobEventsTable from "../../Components/UI/JobEventsTable";
 import { useEffect, useState } from "react";
 import jobEventService from "../../services/job-event.service";
 import { store } from "../../store/store";
 import { GlobalSliceReducers } from "../../store/slices/global.slice";
+import AddJobEvent from "../../Components/Forms/AddJobEvent.form";
 
 const JobEvents = () => {
   const [jobEvents, setJobEvents] = useState<IJobEvent[]>([]);
@@ -26,7 +27,8 @@ const JobEvents = () => {
   const addJobEvent = () => {
     store.dispatch(
       GlobalSliceReducers.showModal({
-        component: <h1>Add Job Event</h1>,
+        component: <AddJobEvent />,
+        size: MODAL_SIZES.LARGE,
       })
     );
   };

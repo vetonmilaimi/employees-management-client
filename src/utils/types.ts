@@ -31,10 +31,17 @@ export interface ErrorResponse {
   details: object;
 }
 
+export enum MODAL_SIZES {
+  SMALL = "sm",
+  MEDIUM = "md",
+  LARGE = "lg",
+}
+
 export interface IGlobalSlice {
   modal: {
     visible: boolean;
     component: JSX.Element | null;
+    size: MODAL_SIZES;
   };
 }
 

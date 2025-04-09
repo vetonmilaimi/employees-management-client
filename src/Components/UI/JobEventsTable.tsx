@@ -51,7 +51,7 @@ const JobEventsTable = ({ jobEvents, loading }: IJobEventsTableProps) => {
       key: "actions",
       align: "center",
       render: (_, record) => (
-        <div className="flex gap-2">
+        <div className="flex gap-2 justify-center">
           <Space size="middle">
             <Button
               type="default"
@@ -72,7 +72,7 @@ const JobEventsTable = ({ jobEvents, loading }: IJobEventsTableProps) => {
           </Space>
         </div>
       ),
-      width: 0.5,
+      width: 1,
     },
   ];
 

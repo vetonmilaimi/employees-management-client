@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 
 import PageTabHeader from "../../Components/UI/PageTabHeader";
 import JobEventsTable from "../../Components/UI/JobEventsTable";
-import AddJobEvent from "../../Components/Forms/AddJobEvent.form";
+import JobEventForm from "../../Components/Forms/JobEvent.form";
 
 import organizationService from "../../services/organization.service";
 import jobEventService from "../../services/job-event.service";
@@ -68,7 +68,7 @@ const JobEvents = () => {
     store.dispatch(
       GlobalSliceReducers.showModal({
         component: (
-          <AddJobEvent
+          <JobEventForm
             onSuccessCallback={() => {
               loadJobEvents()
               store.dispatch(GlobalSliceReducers.closeModal());
@@ -101,7 +101,7 @@ const JobEvents = () => {
   return (
     <div className="flex-col justify-center overflow-hidden max-w-[80%] mx-auto">
       <PageTabHeader title="Job Events" items={items} />
-      <JobEventsTable loading={loading} jobEvents={jobEvents} />
+      <JobEventsTable loading={loading} jobEvents={jobEvents} loadJobEvents={loadJobEvents} projects={projects} employees={employees} />
     </div>
   );
 };

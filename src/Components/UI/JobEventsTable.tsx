@@ -1,28 +1,66 @@
-import { Button, Space, Table, TableProps } from "antd";
-import { IJobEvent } from "../../utils/types";
+import { App, Button, Popconfirm, Space, Table, TableProps } from "antd";
+import { ErrorResponse, IJobEvent, IProject, IUser, MODAL_SIZES } from "../../utils/types";
 import { store } from "../../store/store";
 import { GlobalSliceReducers } from "../../store/slices/global.slice";
+import JobEventForm from "../Forms/JobEvent.form";
+import jobEventService from "../../services/job-event.service";
 
 interface IJobEventsTableProps {
   loading: boolean;
   jobEvents: IJobEvent[];
+  loadJobEvents: () => void;
+  employees: IUser[];
+  projects: IProject[];
 }
 
-//TODO: This should be used also to update a job event on the future
-const JobEventsTable = ({ jobEvents, loading }: IJobEventsTableProps) => {
+const JobEventsTable = ({
+  jobEvents,
+  loading,
+  loadJobEvents,
+  employees,
+  projects,
+}: IJobEventsTableProps) => {
+  const { notification } = App.useApp();
+
   const viewJobEvent = (jobEvent: IJobEvent) => {
     store.dispatch(
       GlobalSliceReducers.showModal({
         component: (
-          <div className="text-center">
-            <h1>View Job Event Modal</h1>
-            <h1>{jobEvent.title}</h1>
-            <p>{jobEvent.description ?? ""}</p>
-          </div>
+          <JobEventForm
+            jobEvent={jobEvent}
+            employees={employees}
+            onSuccessCallback={() => {
+              loadJobEvents();
+              store.dispatch(GlobalSliceReducers.closeModal());
+            }}
+            projects={projects}
+            update={true}
+          />
         ),
+        size: MODAL_SIZES.LARGE,
       })
     );
   };
+
+  const deleteJobEvent = async (jobEventId: string) => {
+    try {
+      const response = await jobEventService.delete({
+        query: { _id: jobEventId },
+      });
+      if (response.message) {
+        notification.success({
+          message: "Job event deleted",
+          description: "Job event deleted successfully",
+        });
+        loadJobEvents();
+      }
+    } catch (error) {
+      notification.error({
+        message: (error as ErrorResponse).name,
+        description: (error as ErrorResponse).message,
+      });
+    }
+  }
 
   const columns: TableProps<IJobEvent>["columns"] = [
     {
@@ -62,13 +100,22 @@ const JobEventsTable = ({ jobEvents, loading }: IJobEventsTableProps) => {
             </Button>
           </Space>
           <Space size="middle">
-            <Button
-              type="default"
-              className="bg-red-500 text-white text-sm"
-              onClick={() => viewJobEvent(record)}
+            <Popconfirm
+              title="Are you sure to delete this job event?"
+              onConfirm={() => {
+                deleteJobEvent(record._id);
+              }}
+              okText="Yes"
+              cancelText="No"
             >
-              Delete
-            </Button>
+              <Button
+                type="default"
+                className="bg-red-500 text-white text-sm"
+                onClick={() => {}}
+              >
+                Delete
+              </Button>
+            </Popconfirm>
           </Space>
         </div>
       ),

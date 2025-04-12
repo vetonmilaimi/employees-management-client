@@ -49,7 +49,7 @@ function CustomUsersTable({
           return <span className="text-primary">Activated</span>;
         }
       },
-      hidden: currentRole !== USER_ROLES.ADMIN,
+      // hidden: currentRole !== USER_ROLES.ADMIN,
     },
     /*
       TODO: There are some cases when we delete a user, we should also delete

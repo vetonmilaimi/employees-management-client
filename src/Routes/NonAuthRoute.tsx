@@ -15,8 +15,7 @@ const NonAuthRoute = ({ children }: Props) => {
       <Navigate
         to={
           auth?.value?.user?.role === USER_ROLES.ADMIN
-            ? "/admin/organizations"
-            : "/manager/projects"
+            ? "/admin/organizations" : auth?.value?.user?.role === USER_ROLES.MANAGER ? "/manager/projects" : "/user/jobs"
         }
         replace
       />

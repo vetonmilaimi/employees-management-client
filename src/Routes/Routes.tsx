@@ -14,6 +14,7 @@ const AddOrganization = lazy(() => import("../Pages/Manager/AddOrganization"));
 const NotFound = lazy(() => import("../Components/UI/NotFound"));
 const Projects = lazy(() => import("../Pages/Manager/Projects"));
 const JobEvents = lazy(() => import("../Pages/Manager/JobEvents"));
+const UserJobs = lazy(() => import("../Pages/User/Jobs"));
 
 export default function RoutesComponent() {
   return (
@@ -107,6 +108,20 @@ export default function RoutesComponent() {
           element={
             <PrivateRoute>
               <JobEvents />
+            </PrivateRoute>
+          }
+        />
+      </Route>
+
+      {/* 
+          User Routes
+      */}
+      <Route path="user">
+        <Route
+          path="jobs"
+          element={
+            <PrivateRoute>
+              <UserJobs />
             </PrivateRoute>
           }
         />

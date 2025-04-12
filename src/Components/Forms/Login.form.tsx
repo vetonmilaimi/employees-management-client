@@ -21,9 +21,14 @@ const LoginForm = () => {
     try {
       const response = await userService.login({ data });
       dispatch(AuthSliceReducers.login(response.message));
+      console.log(response.message)
 
       if (response?.message?.user?.role === USER_ROLES.ADMIN) {
         navigate("/admin/users");
+      }
+
+      if (response?.message?.user?.role === USER_ROLES.USER) {
+        navigate("/user/jobs");
       }
 
       if (response?.message?.user?.role === USER_ROLES.MANAGER) {

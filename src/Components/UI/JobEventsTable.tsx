@@ -1,4 +1,6 @@
 import { App, Button, Popconfirm, Space, Table, TableProps } from "antd";
+import { JOB_EVENT_STATUS } from "../../utils/constants";
+import { CheckCircleTwoTone, ClockCircleTwoTone, ExclamationCircleTwoTone, CloseCircleTwoTone } from "@ant-design/icons";
 import { ErrorResponse, IJobEvent, IProject, IUser, MODAL_SIZES } from "../../utils/types";
 import { store } from "../../store/store";
 import { GlobalSliceReducers } from "../../store/slices/global.slice";
@@ -83,6 +85,55 @@ const JobEventsTable = ({
           )}
         </p>
       ),
+    },
+    {
+      title: "Status",
+      dataIndex: "status",
+      key: "status",
+      width: 1,
+      render: (_, record) => (
+        <span className="capitalize text-xs font-semibold">
+          {record.status || <span className="text-secondary opacity-50">-</span>}
+        </span>
+      ),
+    },
+    {
+      title: "End Time",
+      dataIndex: "end",
+      key: "end",
+      width: 1,
+      render: (_, record) => {
+        const now = new Date();
+        const end = record.end ? new Date(record.end) : null;
+        let bg = "";
+        let icon = null;
+        const textColor = "text-xs";
+
+        if (!end) {
+          icon = <ClockCircleTwoTone twoToneColor="#d1d5db" className="mr-1" />;
+          return <span className="text-secondary opacity-50 flex items-center">-</span>;
+        }
+
+        if (record.status === JOB_EVENT_STATUS.DONE) {
+          bg = "bg-green-100/70";
+          icon = <CheckCircleTwoTone twoToneColor="#52c41a" className="mr-1" />;
+        } else if (end < now) {
+          bg = "bg-red-100/70";
+          icon = <CloseCircleTwoTone twoToneColor="#ff4d4f" className="mr-1" />;
+        } else if (end && (record.status === JOB_EVENT_STATUS.ON_REVIEW || record.status === JOB_EVENT_STATUS.IN_PROGRESS)) {
+          bg = "bg-yellow-100/70";
+          icon = <ExclamationCircleTwoTone twoToneColor="#faad14" className="mr-1" />;
+        } else {
+          icon = <ClockCircleTwoTone twoToneColor="#1890ff" className="mr-1" />;
+        }
+
+        return (
+          <span className={`flex items-center rounded px-2 py-1 ${bg} ${textColor}`}>
+            {icon}
+            {end.toLocaleString()}
+          </span>
+        );
+      },
     },
     {
       title: "Actions",

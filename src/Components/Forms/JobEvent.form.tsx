@@ -1,3 +1,4 @@
+import { JOB_EVENT_STATUS } from "../../utils/constants";
 import { useState } from "react";
 import { App, Button, Form, Input, Popconfirm, Select, DatePicker } from "antd";
 import { useForm } from "antd/es/form/Form";
@@ -95,6 +96,20 @@ const JobEventForm = ({
               initialValue={update ? jobEvent?.title : undefined}
             >
               <Input placeholder="Job event title" />
+            </Form.Item>
+            <Form.Item
+              name="status"
+              className="w-1/3"
+              label="Status"
+              initialValue={update ? jobEvent?.status : JOB_EVENT_STATUS.TODO}
+              rules={[{ required: true, message: "Please select a status!" }]}
+            >
+              <Select>
+                <Select.Option value={JOB_EVENT_STATUS.TODO}>To Do</Select.Option>
+                <Select.Option value={JOB_EVENT_STATUS.IN_PROGRESS}>In Progress</Select.Option>
+                <Select.Option value={JOB_EVENT_STATUS.ON_REVIEW}>On Review</Select.Option>
+                <Select.Option value={JOB_EVENT_STATUS.DONE}>Done</Select.Option>
+              </Select>
             </Form.Item>
           </div>
           <div className="flex justify-center gap-4">

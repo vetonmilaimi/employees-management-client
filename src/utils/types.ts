@@ -119,4 +119,5 @@ export interface IJobEvent {
   employees?: string[];
   start?: Date;
   end?: Date;
+  status?: string;
 }

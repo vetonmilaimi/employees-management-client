@@ -1,9 +1,12 @@
-import { App, Button, Form, Input, Popconfirm, Select } from "antd";
+import { useState } from "react";
+import { App, Button, Form, Input, Popconfirm, Select, DatePicker } from "antd";
 import { useForm } from "antd/es/form/Form";
 import TextArea from "antd/es/input/TextArea";
+import dayjs from "dayjs";
+
 import { ErrorResponse, IJobEvent, IProject, IUser } from "../../utils/types";
-import { useState } from "react";
 import jobEventService from "../../services/job-event.service";
+import generalHelpersService from "../../services/generalHelpersService";
 
 interface JobEventProps {
   employees?: IUser[];
@@ -27,10 +30,14 @@ const JobEventForm = ({
 
   const onSubmit = async (data: object) => {
     setLoading(true);
+    const cleanedData = generalHelpersService.cleanNulls(data);
     try {
       const response = !update
-        ? await jobEventService.add({ data })
-        : await jobEventService.update({ data, query: { _id: jobEvent?._id } });
+        ? await jobEventService.add({ data: cleanedData })
+        : await jobEventService.update({
+            data: cleanedData,
+            query: { _id: jobEvent?._id },
+          });
       if (!response.error) onSuccessCallback();
     } catch (error) {
       notification.error({
@@ -73,54 +80,115 @@ const JobEventForm = ({
         form={form}
         layout="horizontal"
       >
-        <div className="flex justify-center gap-4">
-          <Form.Item
-            name="title"
-            className="w-[100%]"
-            rules={[
-              { required: true, message: "Please input job event title!" },
-            ]}
-            initialValue={update ? jobEvent?.title : undefined}
-          >
-            <Input placeholder="Job event title" />
-          </Form.Item>
-        </div>
-        <div className="flex justify-center gap-4">
-          <Form.Item
-            className="w-2/3 min-h-[100px]"
-            name="description"
-            rules={[{ required: false }]}
-            initialValue={update ? jobEvent?.description : undefined}
-          >
-            <TextArea placeholder="Job event Description" rows={4} />
-          </Form.Item>
-          <div className="flex flex-col justify-between w-1/3">
+        {/* General Info Section */}
+        <div className="border rounded-md p-4 mb-6 bg-gray-50">
+          <h2 className="text-lg font-semibold mb-3 text-secondary">
+            General Information
+          </h2>
+          <div className="flex justify-center gap-4">
             <Form.Item
-              name="project"
-              rules={[{ required: true }]}
-              initialValue={update ? jobEvent?.project : projects?.length === 1 ? projects[0]._id : undefined}
+              name="title"
+              className="w-[100%]"
+              rules={[
+                { required: true, message: "Please input job event title!" },
+              ]}
+              initialValue={update ? jobEvent?.title : undefined}
             >
-              <Select placeholder="Select a project">
-                {projects?.map((project) => (
-                  <Select.Option key={project._id} value={project._id}>
-                    {project.name}
-                  </Select.Option>
-                ))}
-              </Select>
+              <Input placeholder="Job event title" />
             </Form.Item>
+          </div>
+          <div className="flex justify-center gap-4">
             <Form.Item
-              name="employees"
+              className="w-2/3 min-h-[100px]"
+              name="description"
               rules={[{ required: false }]}
-              initialValue={update ? jobEvent?.employees : undefined}
+              initialValue={update ? jobEvent?.description : undefined}
             >
-              <Select placeholder="Select employees" mode="multiple" allowClear>
-                {employees?.map((employee) => (
-                  <Select.Option key={employee._id} value={employee._id}>
-                    {employee.firstName} {employee.lastName}
-                  </Select.Option>
-                ))}
-              </Select>
+              <TextArea placeholder="Job event Description" rows={4} />
             </Form.Item>
+            <div className="flex flex-col justify-between w-1/3">
+              <Form.Item
+                name="project"
+                rules={[{ required: true }]}
+                initialValue={
+                  update
+                    ? jobEvent?.project
+                    : projects?.length === 1
+                    ? projects[0]._id
+                    : undefined
+                }
+              >
+                <Select placeholder="Select a project">
+                  {projects?.map((project) => (
+                    <Select.Option key={project._id} value={project._id}>
+                      {project.name}
+                    </Select.Option>
+                  ))}
+                </Select>
+              </Form.Item>
+              <Form.Item
+                name="employees"
+                rules={[{ required: false }]}
+                initialValue={update ? jobEvent?.employees : undefined}
+              >
+                <Select
+                  placeholder="Select employees"
+                  mode="multiple"
+                  allowClear
+                >
+                  {employees?.map((employee) => (
+                    <Select.Option key={employee._id} value={employee._id}>
+                      {employee.firstName} {employee.lastName}
+                    </Select.Option>
+                  ))}
+                </Select>
+              </Form.Item>
+            </div>
+          </div>
+        </div>
+
+        {/* Date Section - at the end of the form, before buttons */}
+        <div className="border rounded-md p-4 mt-6 mb-4 bg-gray-50">
+          <h2 className="text-lg font-semibold mb-3 text-secondary">
+            Estimated time
+          </h2>
+          <div className="flex flex-col gap-2">
+            <div className="flex items-center gap-2">
+              <span className="w-12 text-right font-medium">From</span>
+              <Form.Item
+                name="start"
+                className="flex-1 mb-0"
+                rules={[]}
+                initialValue={
+                  update && jobEvent?.start ? dayjs(jobEvent?.start) : undefined
+                }
+              >
+                <DatePicker
+                  showTime
+                  style={{ width: "100%" }}
+                  placeholder="Start date and time"
+                  format="YYYY-MM-DD HH:mm"
+                />
+              </Form.Item>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="w-12 text-right font-medium">To</span>
+              <Form.Item
+                name="end"
+                className="flex-1 mb-0"
+                rules={[]}
+                initialValue={
+                  update && jobEvent?.end ? dayjs(jobEvent?.end) : undefined
+                }
+              >
+                <DatePicker
+                  showTime
+                  style={{ width: "100%" }}
+                  placeholder="End date and time"
+                  format="YYYY-MM-DD HH:mm"
+                />
+              </Form.Item>
+            </div>
           </div>
         </div>
 

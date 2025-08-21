@@ -1,6 +1,7 @@
 import { JOB_EVENT_STATUS } from "../../utils/constants";
 import { useState } from "react";
 import { App, Button, Form, Input, Popconfirm, Select, DatePicker } from "antd";
+import { CheckCircleFilled, ClockCircleFilled, SyncOutlined, EyeOutlined } from '@ant-design/icons';
 import { useForm } from "antd/es/form/Form";
 import TextArea from "antd/es/input/TextArea";
 import dayjs from "dayjs";
@@ -70,6 +71,22 @@ const JobEventForm = ({
     }
   };
 
+  // Status icon and color mapping
+  const statusIcon = (status: string) => {
+    switch (status) {
+      case JOB_EVENT_STATUS.TODO:
+        return <ClockCircleFilled style={{ color: '#faad14', marginRight: 6 }} />;
+      case JOB_EVENT_STATUS.IN_PROGRESS:
+        return <SyncOutlined spin style={{ color: '#1890ff', marginRight: 6 }} />;
+      case JOB_EVENT_STATUS.ON_REVIEW:
+        return <EyeOutlined style={{ color: '#722ed1', marginRight: 6 }} />;
+      case JOB_EVENT_STATUS.DONE:
+        return <CheckCircleFilled style={{ color: '#52c41a', marginRight: 6 }} />;
+      default:
+        return null;
+    }
+  };
+
   return (
     <div className="px-5">
       <h1 className="text-xl mb-1 text-secondary">
@@ -88,8 +105,9 @@ const JobEventForm = ({
           </h2>
           <div className="flex justify-center gap-4">
             <Form.Item
+              label="Title"
               name="title"
-              className="w-[100%]"
+              className="w-2/3 "
               rules={[
                 { required: true, message: "Please input job event title!" },
               ]}
@@ -98,22 +116,34 @@ const JobEventForm = ({
               <Input placeholder="Job event title" />
             </Form.Item>
             <Form.Item
+              label="Status"
               name="status"
               className="w-1/3"
-              label="Status"
               initialValue={update ? jobEvent?.status : JOB_EVENT_STATUS.TODO}
               rules={[{ required: true, message: "Please select a status!" }]}
             >
-              <Select>
-                <Select.Option value={JOB_EVENT_STATUS.TODO}>To Do</Select.Option>
-                <Select.Option value={JOB_EVENT_STATUS.IN_PROGRESS}>In Progress</Select.Option>
-                <Select.Option value={JOB_EVENT_STATUS.ON_REVIEW}>On Review</Select.Option>
-                <Select.Option value={JOB_EVENT_STATUS.DONE}>Done</Select.Option>
+              <Select
+                optionLabelProp="label"
+                dropdownRender={menu => menu}
+              >
+                <Select.Option value={JOB_EVENT_STATUS.TODO} label={<span>{statusIcon(JOB_EVENT_STATUS.TODO)}To Do</span>}>
+                  <span>{statusIcon(JOB_EVENT_STATUS.TODO)}To Do</span>
+                </Select.Option>
+                <Select.Option value={JOB_EVENT_STATUS.IN_PROGRESS} label={<span>{statusIcon(JOB_EVENT_STATUS.IN_PROGRESS)}In Progress</span>}>
+                  <span>{statusIcon(JOB_EVENT_STATUS.IN_PROGRESS)}In Progress</span>
+                </Select.Option>
+                <Select.Option value={JOB_EVENT_STATUS.ON_REVIEW} label={<span>{statusIcon(JOB_EVENT_STATUS.ON_REVIEW)}On Review</span>}>
+                  <span>{statusIcon(JOB_EVENT_STATUS.ON_REVIEW)}On Review</span>
+                </Select.Option>
+                <Select.Option value={JOB_EVENT_STATUS.DONE} label={<span>{statusIcon(JOB_EVENT_STATUS.DONE)}Done</span>}>
+                  <span>{statusIcon(JOB_EVENT_STATUS.DONE)}Done</span>
+                </Select.Option>
               </Select>
             </Form.Item>
           </div>
           <div className="flex justify-center gap-4">
             <Form.Item
+              label="Description"
               className="w-2/3 min-h-[100px]"
               name="description"
               rules={[{ required: false }]}
@@ -123,6 +153,7 @@ const JobEventForm = ({
             </Form.Item>
             <div className="flex flex-col justify-between w-1/3">
               <Form.Item
+                label="Project"
                 name="project"
                 rules={[{ required: true }]}
                 initialValue={
@@ -142,6 +173,7 @@ const JobEventForm = ({
                 </Select>
               </Form.Item>
               <Form.Item
+                label="Employees"
                 name="employees"
                 rules={[{ required: false }]}
                 initialValue={update ? jobEvent?.employees : undefined}
@@ -169,8 +201,8 @@ const JobEventForm = ({
           </h2>
           <div className="flex flex-col gap-2">
             <div className="flex items-center gap-2">
-              <span className="w-12 text-right font-medium">From</span>
               <Form.Item
+                label={<span className="w-12 text-right font-medium">From</span>}
                 name="start"
                 className="flex-1 mb-0"
                 rules={[]}
@@ -187,8 +219,8 @@ const JobEventForm = ({
               </Form.Item>
             </div>
             <div className="flex items-center gap-2">
-              <span className="w-12 text-right font-medium">To</span>
               <Form.Item
+                label={<span className="w-12 text-right font-medium">To</span>}
                 name="end"
                 className="flex-1 mb-0"
                 rules={[]}

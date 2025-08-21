@@ -1,6 +1,7 @@
 import { App, Button, Popconfirm, Space, Table, TableProps } from "antd";
+
 import { JOB_EVENT_STATUS } from "../../utils/constants";
-import { CheckCircleTwoTone, ClockCircleTwoTone, ExclamationCircleTwoTone, CloseCircleTwoTone } from "@ant-design/icons";
+import { CheckCircleTwoTone, ClockCircleTwoTone, ExclamationCircleTwoTone, CloseCircleTwoTone, SyncOutlined, EyeOutlined, CheckCircleFilled, ClockCircleFilled } from "@ant-design/icons";
 import { ErrorResponse, IJobEvent, IProject, IUser, MODAL_SIZES } from "../../utils/types";
 import { store } from "../../store/store";
 import { GlobalSliceReducers } from "../../store/slices/global.slice";
@@ -64,24 +65,42 @@ const JobEventsTable = ({
     }
   }
 
+  // Status icon and color mapping (same as in JobEvent.form.tsx)
+  const statusIcon = (status: string) => {
+    switch (status) {
+      case JOB_EVENT_STATUS.TODO:
+        return <ClockCircleFilled style={{ color: '#faad14', marginRight: 6 }} />;
+      case JOB_EVENT_STATUS.IN_PROGRESS:
+        return <SyncOutlined spin style={{ color: '#1890ff', marginRight: 6 }} />;
+      case JOB_EVENT_STATUS.ON_REVIEW:
+        return <EyeOutlined style={{ color: '#722ed1', marginRight: 6 }} />;
+      case JOB_EVENT_STATUS.DONE:
+        return <CheckCircleFilled style={{ color: '#52c41a', marginRight: 6 }} />;
+      default:
+        return null;
+    }
+  };
+
   const columns: TableProps<IJobEvent>["columns"] = [
     {
       title: "Title",
       dataIndex: "title",
       key: "title",
-      width: 1,
+      width: 120,
+      ellipsis: true,
+      responsive: ['xs', 'sm', 'md', 'lg', 'xl'],
     },
     {
       title: "Description",
       dataIndex: "description",
       key: "description",
-      width: 3,
+      width: 200,
+      ellipsis: true,
+      responsive: ['sm', 'md', 'lg', 'xl'],
       render: (_, record) => (
         <p className="text-sm line-clamp-1">
           {record.description ?? (
-            <span className="text-secondary opacity-50">
-              Nothing to show...
-            </span>
+            <span className="text-secondary opacity-50">Nothing to show...</span>
           )}
         </p>
       ),
@@ -90,18 +109,27 @@ const JobEventsTable = ({
       title: "Status",
       dataIndex: "status",
       key: "status",
-      width: 1,
+      width: 100,
+      ellipsis: true,
+      responsive: ['xs', 'sm', 'md', 'lg', 'xl'],
       render: (_, record) => (
-        <span className="capitalize text-xs font-semibold">
-          {record.status || <span className="text-secondary opacity-50">-</span>}
-        </span>
+        record.status ? (
+          <span className="capitalize text-xs font-semibold flex items-center">
+            {statusIcon(record.status)}
+            {record.status}
+          </span>
+        ) : (
+          <span className="text-secondary opacity-50">-</span>
+        )
       ),
     },
     {
       title: "End Time",
       dataIndex: "end",
       key: "end",
-      width: 1,
+      width: 160,
+      ellipsis: true,
+      responsive: ['sm', 'md', 'lg', 'xl'],
       render: (_, record) => {
         const now = new Date();
         const end = record.end ? new Date(record.end) : null;
@@ -139,6 +167,8 @@ const JobEventsTable = ({
       title: "Actions",
       key: "actions",
       align: "center",
+      width: 120,
+      responsive: ['xs', 'sm', 'md', 'lg', 'xl'],
       render: (_, record) => (
         <div className="flex gap-2 justify-center">
           <Space size="middle">
@@ -170,19 +200,22 @@ const JobEventsTable = ({
           </Space>
         </div>
       ),
-      width: 1,
     },
   ];
 
   return (
-    <Table
-      bordered
-      loading={loading}
-      tableLayout="fixed"
-      columns={columns}
-      dataSource={jobEvents}
-      pagination={false}
-    />
+    <div className="w-full overflow-x-auto">
+      <Table
+        bordered
+        loading={loading}
+        tableLayout="fixed"
+        columns={columns}
+        dataSource={jobEvents}
+        pagination={false}
+        scroll={{ x: 600 }}
+        className="min-w-[600px]"
+      />
+    </div>
   );
 };
 

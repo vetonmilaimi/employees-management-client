@@ -2,24 +2,27 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Card, Spin, Typography, App } from "antd";
 import { ArrowLeftOutlined } from "@ant-design/icons";
+
+import PageTabHeader from "../../Components/UI/PageTabHeader";
+import ProjectsForm from "../../Components/Forms/Projects.form";
+import JobEventsTable from "../../Components/UI/JobEventsTable";
+import JobEventForm from "../../Components/Forms/JobEvent.form";
+
+import projectService from "../../services/project.service";
+import jobEventService from "../../services/job-event.service";
+import organizationService from "../../services/organization.service";
+import { GlobalSliceReducers } from "../../store/slices/global.slice";
+import { store } from "../../store/store";
+import AppTexts from "../../utils/texts/app-texts.json";
+import withManager from "../../utils/enhancers/withManager";
 import {
   IProject,
   IJobEvent,
   IUser,
   PageTabButtonTypes,
   MODAL_SIZES,
+  ErrorResponse,
 } from "../../utils/types";
-import projectService from "../../services/project.service";
-import AppTexts from "../../utils/texts/app-texts.json";
-import PageTabHeader from "../../Components/UI/PageTabHeader";
-import ProjectsForm from "../../Components/Forms/Projects.form";
-import { GlobalSliceReducers } from "../../store/slices/global.slice";
-import { store } from "../../store/store";
-import withManager from "../../utils/enhancers/withManager";
-import JobEventsTable from "../../Components/UI/JobEventsTable";
-import jobEventService from "../../services/job-event.service";
-import organizationService from "../../services/organization.service";
-import JobEventForm from "../../Components/Forms/JobEvent.form";
 
 const { Title, Paragraph } = Typography;
 
@@ -42,11 +45,9 @@ const SingleProject = () => {
       const response = await projectService.get({ query: { _id: projectId } });
       setProject(response.message);
     } catch (error) {
-      console.error(error);
       notification.error({
         message: "Failed to load project",
-        description:
-          (error as unknown as { message?: string })?.message || String(error),
+        description: (error as ErrorResponse).message,
       });
     } finally {
       setLoadingProject(false);
@@ -60,11 +61,9 @@ const SingleProject = () => {
       const response = await jobEventService.list({ query: { project: id } });
       setJobEvents(response.message.map((el) => ({ ...el, key: el._id })));
     } catch (error) {
-      console.error(error);
       notification.error({
         message: "Failed to load job events",
-        description:
-          (error as unknown as { message?: string })?.message || String(error),
+        description: (error as ErrorResponse).message,
       });
     } finally {
       setLoadingJobEvents(false);
@@ -76,11 +75,9 @@ const SingleProject = () => {
       const response = await organizationService.listEmployees();
       setEmployees(response.message);
     } catch (error) {
-      console.error(error);
       notification.error({
         message: "Failed to load employees",
-        description:
-          (error as unknown as { message?: string })?.message || String(error),
+        description: (error as ErrorResponse).message,
       });
     }
   };
@@ -90,7 +87,10 @@ const SingleProject = () => {
       const response = await projectService.list();
       setProjects(response.message);
     } catch (error) {
-      console.error(error);
+      notification.error({
+        message: "Failed to load projects",
+        description: (error as ErrorResponse).message,
+      });
     }
   };
 
@@ -161,10 +161,10 @@ const SingleProject = () => {
             onClick: updateProject,
             type: PageTabButtonTypes.LINK,
           },
+          // TODO: This should be a Popconfirm from antD library
           {
             label: "Delete",
             onClick: () => {
-              // show Popconfirm via window confirm fallback
               const confirmed = window.confirm(
                 AppTexts?.users_page?.["delete-user"] || "Are you sure?"
               );

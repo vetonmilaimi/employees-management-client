@@ -101,6 +101,7 @@ export interface IProject {
 export enum PageTabButtonTypes {
   BUTTON = "button",
   LINK = "link",
+  DANGER = "danger"
 }
 
 export type PageTabItems = {

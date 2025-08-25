@@ -1,13 +1,15 @@
-import { App, Button, Table, TableProps, Dropdown } from "antd";
+import { Button, Table, TableProps, Dropdown } from "antd";
 import { useNavigate } from "react-router-dom";
-import { EllipsisOutlined, EyeOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
+import {
+  EllipsisOutlined,
+  EyeOutlined,
+  EditOutlined,
+} from "@ant-design/icons";
 
-import { ErrorResponse, IProject } from "../../utils/types";
-import AppTexts from "../../utils/texts/app-texts.json";
+import { IProject } from "../../utils/types";
 import { store } from "../../store/store";
 import { GlobalSliceReducers } from "../../store/slices/global.slice";
 import ProjectsForm from "../Forms/Projects.form";
-import projectService from "../../services/project.service";
 
 interface IListProjectsTableProps {
   loading: boolean;
@@ -20,28 +22,27 @@ const ListProjectsTable = ({
   projects,
   loadProjects,
 }: IListProjectsTableProps) => {
-  const { notification } = App.useApp();
   const navigate = useNavigate();
 
-  const deleteProject = async (projectId: string) => {
-    try {
-      const response = await projectService.delete({
-        query: { _id: projectId },
-      });
-      if (response.message) {
-        notification.success({
-          message: "Project deleted",
-          description: "Project deleted successfully",
-        });
-        loadProjects();
-      }
-    } catch (error) {
-      notification.error({
-        message: (error as ErrorResponse).name,
-        description: (error as ErrorResponse).message,
-      });
-    }
-  };
+  // const deleteProject = async (projectId: string) => {
+  //   try {
+  //     const response = await projectService.delete({
+  //       query: { _id: projectId },
+  //     });
+  //     if (response.message) {
+  //       notification.success({
+  //         message: "Project deleted",
+  //         description: "Project deleted successfully",
+  //       });
+  //       loadProjects();
+  //     }
+  //   } catch (error) {
+  //     notification.error({
+  //       message: (error as ErrorResponse).name,
+  //       description: (error as ErrorResponse).message,
+  //     });
+  //   }
+  // };
 
   const updateProject = async (project: IProject) => {
     store.dispatch(
@@ -67,7 +68,10 @@ const ListProjectsTable = ({
       dataIndex: "name",
       // render name as a clickable link that navigates to the single project page
       render: (text, record) => (
-        <Button type="link" onClick={() => navigate(`/manager/projects/${record._id}`)}>
+        <Button
+          type="link"
+          onClick={() => navigate(`/manager/projects/${record._id}`)}
+        >
           {text}
         </Button>
       ),
@@ -92,7 +96,7 @@ const ListProjectsTable = ({
                 className="flex items-center gap-2 text-blue-600"
                 onClick={() => navigate(`/manager/projects/${record._id}`)}
               >
-                <EyeOutlined style={{ color: '#1890ff' }} />
+                <EyeOutlined style={{ color: "#1890ff" }} />
                 <span>View</span>
               </span>
             ),
@@ -109,23 +113,26 @@ const ListProjectsTable = ({
               </span>
             ),
           },
-          {
-            key: "delete",
-            label: (
-              <span
-                className="flex items-center gap-2 text-red-500"
-                onClick={() => {
-                  const confirmed = window.confirm(
-                    AppTexts.users_page["delete-user"] || "Are you sure?"
-                  );
-                  if (confirmed) deleteProject(record._id);
-                }}
-              >
-                <DeleteOutlined style={{ color: '#ff4d4f' }} />
-                <span>{AppTexts.global.delete}</span>
-              </span>
-            ),
-          },
+          // {
+          //   key: "delete",
+          //   label: (
+          //     <Popconfirm
+          //       title="Are you sure to delete this job event?"
+          //       onConfirm={() => {
+          //         deleteProject(record._id);
+          //       }}
+          //       okText="Yes"
+          //       cancelText="No"
+          //     >
+          //       <span
+          //         className="flex items-center gap-2 text-red-500"
+          //       >
+          //         <DeleteOutlined style={{ color: "#ff4d4f" }} />
+          //         <span>{AppTexts.global.delete}</span>
+          //       </span>
+          //     </Popconfirm>
+          //   ),
+          // },
         ];
 
         return (

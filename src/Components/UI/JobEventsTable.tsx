@@ -139,7 +139,7 @@ const JobEventsTable = ({
 
         if (!end) {
           icon = <ClockCircleTwoTone twoToneColor="#d1d5db" className="mr-1" />;
-          return <span className="text-secondary opacity-50 flex items-center">-</span>;
+          return <span className="text-secondary opacity-50 flex items-center">Nothing to show...</span>;
         }
 
         if (record.status === JOB_EVENT_STATUS.DONE) {

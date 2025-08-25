@@ -1,12 +1,25 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { Card, Spin, Typography, Button, App } from "antd";
-import { IProject, IJobEvent, IUser } from "../../utils/types";
+import { Card, Spin, Typography, App } from "antd";
+import { ArrowLeftOutlined } from "@ant-design/icons";
+import {
+  IProject,
+  IJobEvent,
+  IUser,
+  PageTabButtonTypes,
+  MODAL_SIZES,
+} from "../../utils/types";
 import projectService from "../../services/project.service";
+import AppTexts from "../../utils/texts/app-texts.json";
+import PageTabHeader from "../../Components/UI/PageTabHeader";
+import ProjectsForm from "../../Components/Forms/Projects.form";
+import { GlobalSliceReducers } from "../../store/slices/global.slice";
+import { store } from "../../store/store";
 import withManager from "../../utils/enhancers/withManager";
 import JobEventsTable from "../../Components/UI/JobEventsTable";
 import jobEventService from "../../services/job-event.service";
 import organizationService from "../../services/organization.service";
+import JobEventForm from "../../Components/Forms/JobEvent.form";
 
 const { Title, Paragraph } = Typography;
 
@@ -32,7 +45,8 @@ const SingleProject = () => {
       console.error(error);
       notification.error({
         message: "Failed to load project",
-        description: ((error as unknown) as { message?: string })?.message || String(error),
+        description:
+          (error as unknown as { message?: string })?.message || String(error),
       });
     } finally {
       setLoadingProject(false);
@@ -49,7 +63,8 @@ const SingleProject = () => {
       console.error(error);
       notification.error({
         message: "Failed to load job events",
-        description: ((error as unknown) as { message?: string })?.message || String(error),
+        description:
+          (error as unknown as { message?: string })?.message || String(error),
       });
     } finally {
       setLoadingJobEvents(false);
@@ -64,7 +79,8 @@ const SingleProject = () => {
       console.error(error);
       notification.error({
         message: "Failed to load employees",
-        description: ((error as unknown) as { message?: string })?.message || String(error),
+        description:
+          (error as unknown as { message?: string })?.message || String(error),
       });
     }
   };
@@ -87,11 +103,77 @@ const SingleProject = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
+  const updateProject = () => {
+    if (!project) return;
+    store.dispatch(
+      GlobalSliceReducers.showModal({
+        component: (
+          <ProjectsForm
+            edit
+            project={project}
+            onSuccessCallback={() => {
+              store.dispatch(GlobalSliceReducers.closeModal());
+              loadProject(project._id);
+              loadProjects();
+            }}
+          />
+        ),
+      })
+    );
+  };
+
+  const deleteCurrentProject = async () => {
+    if (!project) return;
+    try {
+      const response = await projectService.delete({
+        query: { _id: project._id },
+      });
+      if (response.message) {
+        notification.success({
+          message: "Project deleted",
+          description: "Project deleted successfully",
+        });
+        navigate(-1);
+      }
+    } catch (error) {
+      notification.error({
+        message: (error as unknown as { name?: string })?.name || "Error",
+        description:
+          (error as unknown as { message?: string })?.message || String(error),
+      });
+    }
+  };
+
   return (
     <div className="max-w-[80%] mx-auto mt-6">
-      <Button onClick={() => navigate(-1)} className="mb-4">
-        Back
-      </Button>
+      <PageTabHeader
+        title={
+          <div className="flex items-center gap-3">
+            <ArrowLeftOutlined
+              className="cursor-pointer text-xl"
+              onClick={() => navigate(-1)}
+            />
+          </div>
+        }
+        items={[
+          {
+            label: "Update",
+            onClick: updateProject,
+            type: PageTabButtonTypes.LINK,
+          },
+          {
+            label: "Delete",
+            onClick: () => {
+              // show Popconfirm via window confirm fallback
+              const confirmed = window.confirm(
+                AppTexts?.users_page?.["delete-user"] || "Are you sure?"
+              );
+              if (confirmed) deleteCurrentProject();
+            },
+            type: PageTabButtonTypes.DANGER,
+          },
+        ]}
+      />
 
       <Card className="mb-6">
         {loadingProject ? (
@@ -108,9 +190,34 @@ const SingleProject = () => {
         )}
       </Card>
 
-      {/* Job events related to this project */}
       <div>
-        <h2 className="text-lg text-white font-semibold mb-2">Job Events</h2>
+        <PageTabHeader
+          title="Job Events"
+          items={[
+            {
+              label: "Add new",
+              type: PageTabButtonTypes.BUTTON,
+              onClick: () => {
+                store.dispatch(
+                  GlobalSliceReducers.showModal({
+                    component: (
+                      <JobEventForm
+                        employees={employees}
+                        projects={projects}
+                        onSuccessCallback={() => {
+                          store.dispatch(GlobalSliceReducers.closeModal());
+                          loadJobEvents();
+                        }}
+                        projectId={id}
+                      />
+                    ),
+                    size: MODAL_SIZES.LARGE,
+                  })
+                );
+              },
+            },
+          ]}
+        />
         <JobEventsTable
           loading={loadingJobEvents}
           jobEvents={jobEvents}

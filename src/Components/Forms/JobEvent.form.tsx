@@ -16,6 +16,7 @@ interface JobEventProps {
   update?: boolean;
   jobEvent?: IJobEvent;
   onSuccessCallback: () => void;
+  projectId?: string;
 }
 
 const JobEventForm = ({
@@ -24,6 +25,7 @@ const JobEventForm = ({
   onSuccessCallback,
   update,
   jobEvent,
+  projectId
 }: JobEventProps) => {
   const [form] = useForm();
   const { notification } = App.useApp();
@@ -157,6 +159,7 @@ const JobEventForm = ({
                 name="project"
                 rules={[{ required: true }]}
                 initialValue={
+                  projectId ? projectId :
                   update
                     ? jobEvent?.project
                     : projects?.length === 1
@@ -164,7 +167,7 @@ const JobEventForm = ({
                     : undefined
                 }
               >
-                <Select placeholder="Select a project">
+                <Select placeholder="Select a project" disabled={!!projectId}>
                   {projects?.map((project) => (
                     <Select.Option key={project._id} value={project._id}>
                       {project.name}

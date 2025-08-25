@@ -2,7 +2,7 @@ import { Button } from "antd";
 import { PageTabItems, PageTabButtonTypes } from "../../utils/types";
 
 interface IPageTabHeaderProps {
-  title: string;
+  title: string | JSX.Element;
   items: PageTabItems[];
 }
 
@@ -18,9 +18,20 @@ const PageTabHeader = ({ title, items }: IPageTabHeaderProps) => {
                 {item.label}
               </Button>
             );
-          } else {
+          } else if (item.type === PageTabButtonTypes.BUTTON) {
             return (
               <Button key={key} type="primary" onClick={item.onClick}>
+                {item.label}
+              </Button>
+            );
+          } else {
+            return (
+              <Button
+                key={key}
+                type="default"
+                className="bg-red-500 text-white text-sm"
+                onClick={item.onClick}
+              >
                 {item.label}
               </Button>
             );

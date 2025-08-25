@@ -1,4 +1,6 @@
-import { App, Button, Popconfirm, Space, Table, TableProps } from "antd";
+import { App, Button, Table, TableProps, Dropdown } from "antd";
+import { useNavigate } from "react-router-dom";
+import { EllipsisOutlined, EyeOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
 
 import { ErrorResponse, IProject } from "../../utils/types";
 import AppTexts from "../../utils/texts/app-texts.json";
@@ -19,6 +21,7 @@ const ListProjectsTable = ({
   loadProjects,
 }: IListProjectsTableProps) => {
   const { notification } = App.useApp();
+  const navigate = useNavigate();
 
   const deleteProject = async (projectId: string) => {
     try {
@@ -62,6 +65,12 @@ const ListProjectsTable = ({
       title: "Name",
       key: "name",
       dataIndex: "name",
+      // render name as a clickable link that navigates to the single project page
+      render: (text, record) => (
+        <Button type="link" onClick={() => navigate(`/manager/projects/${record._id}`)}>
+          {text}
+        </Button>
+      ),
     },
     {
       title: "Description",
@@ -69,41 +78,64 @@ const ListProjectsTable = ({
       dataIndex: "description",
     },
     {
-      title: "Actions",
+      title: "",
       key: "actions",
-      render: (_, record) => (
-        <div className="flex gap-2">
-          <Space size="middle">
-            <Button
-              type="default"
-              className="opacity-80 text-sm"
-              onClick={() => updateProject(record)}
-            >
-              Update
-            </Button>
-          </Space>
-          <Space size="middle">
-            <Popconfirm
-              title={AppTexts.users_page["delete-user"]}
-              onConfirm={() => {
-                deleteProject(record._id);
-              }}
-              onCancel={() => {}}
-              okText={AppTexts.global.yes}
-              cancelText={AppTexts.global.no}
-            >
-              <Button
-                // TODO: Change font size of all buttons at tables
-                className="bg-red-500 text-white text-sm"
-                type="default"
-                onClick={() => {}}
+      align: "center",
+      width: 50,
+      fixed: "right",
+      render: (_, record) => {
+        const menuItems = [
+          {
+            key: "view",
+            label: (
+              <span
+                className="flex items-center gap-2 text-blue-600"
+                onClick={() => navigate(`/manager/projects/${record._id}`)}
               >
-                {AppTexts.global.delete}
-              </Button>
-            </Popconfirm>
-          </Space>
-        </div>
-      ),
+                <EyeOutlined style={{ color: '#1890ff' }} />
+                <span>View</span>
+              </span>
+            ),
+          },
+          {
+            key: "update",
+            label: (
+              <span
+                className="flex items-center gap-2"
+                onClick={() => updateProject(record)}
+              >
+                <EditOutlined />
+                <span>Update</span>
+              </span>
+            ),
+          },
+          {
+            key: "delete",
+            label: (
+              <span
+                className="flex items-center gap-2 text-red-500"
+                onClick={() => {
+                  const confirmed = window.confirm(
+                    AppTexts.users_page["delete-user"] || "Are you sure?"
+                  );
+                  if (confirmed) deleteProject(record._id);
+                }}
+              >
+                <DeleteOutlined style={{ color: '#ff4d4f' }} />
+                <span>{AppTexts.global.delete}</span>
+              </span>
+            ),
+          },
+        ];
+
+        return (
+          <div className="flex items-center justify-end gap-2 w-full">
+            <Dropdown menu={{ items: menuItems }} placement="bottomRight">
+              <Button type="text" icon={<EllipsisOutlined />} />
+            </Dropdown>
+          </div>
+        );
+      },
     },
   ];
 

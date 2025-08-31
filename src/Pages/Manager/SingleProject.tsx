@@ -22,6 +22,7 @@ import {
   PageTabButtonTypes,
   MODAL_SIZES,
   ErrorResponse,
+  ITimeOnProject,
 } from "../../utils/types";
 
 const { Title, Paragraph } = Typography;
@@ -39,6 +40,12 @@ const SingleProject = () => {
 
   const [employees, setEmployees] = useState<IUser[]>([]);
   const [projects, setProjects] = useState<IProject[]>([]);
+
+  const [timeOnProject, setTimeOnProject] = useState<ITimeOnProject | null>(
+    null
+  );
+  const [loadingTimeOnProject, setLoadingTimeOnProject] =
+    useState<boolean>(true);
 
   const loadProject = async (projectId: string) => {
     try {
@@ -94,12 +101,29 @@ const SingleProject = () => {
     }
   };
 
+  const loadTimeOnProject = async (projectId: string) => {
+    try {
+      const response = await jobEventService.getTimeWorkOnProject({
+        query: { _id: projectId },
+      });
+      setTimeOnProject(response.message);
+    } catch (error) {
+      notification.error({
+        message: "Failed to load time on project",
+        description: (error as ErrorResponse).message,
+      });
+    } finally {
+      setLoadingTimeOnProject(false);
+    }
+  };
+
   useEffect(() => {
     if (!id) return;
     loadProject(id);
     loadJobEvents();
     loadEmployees();
     loadProjects();
+    loadTimeOnProject(id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
@@ -114,7 +138,7 @@ const SingleProject = () => {
             onSuccessCallback={() => {
               store.dispatch(GlobalSliceReducers.closeModal());
               loadProject(project._id);
-              loadProjects();
+              loadTimeOnProject(id!);
             }}
           />
         ),
@@ -184,6 +208,20 @@ const SingleProject = () => {
           <div>
             <Title level={3}>{project.name}</Title>
             <Paragraph>{project.description || "No description"}</Paragraph>
+            {!loadingTimeOnProject && (
+              <Paragraph>
+                <span>
+                  <span role="img" aria-label="clock">
+                    ⏰
+                  </span>{" "}
+                  <b>
+                    {timeOnProject?.hours}h {timeOnProject?.minutes}m
+                  </b>{" "}
+                  have been dedicated to this project so far.
+                  <br />
+                </span>
+              </Paragraph>
+            )}
           </div>
         ) : (
           <Paragraph>Project not found.</Paragraph>
@@ -207,6 +245,7 @@ const SingleProject = () => {
                         onSuccessCallback={() => {
                           store.dispatch(GlobalSliceReducers.closeModal());
                           loadJobEvents();
+                          loadTimeOnProject(id!);
                         }}
                         projectId={id}
                       />

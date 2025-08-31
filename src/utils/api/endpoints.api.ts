@@ -100,5 +100,9 @@ export const Endpoint = {
       url: `${API_URL}/v1/job-events/update`,
       method: "POST",
     },
+    "time-on-project": {
+      url: `${API_URL}/v1/job-events/time-on-project`,
+      method: "GET",
+    },
   },
 };

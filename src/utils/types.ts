@@ -122,3 +122,8 @@ export interface IJobEvent {
   end?: Date;
   status?: string;
 }
+
+export interface ITimeOnProject {
+  hours: number;
+  minutes: number;
+}

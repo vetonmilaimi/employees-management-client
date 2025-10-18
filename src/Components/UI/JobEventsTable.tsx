@@ -1,8 +1,23 @@
 import { App, Button, Popconfirm, Space, Table, TableProps } from "antd";
 
 import { JOB_EVENT_STATUS } from "../../utils/constants";
-import { CheckCircleTwoTone, ClockCircleTwoTone, ExclamationCircleTwoTone, CloseCircleTwoTone, SyncOutlined, EyeOutlined, CheckCircleFilled, ClockCircleFilled } from "@ant-design/icons";
-import { ErrorResponse, IJobEvent, IProject, IUser, MODAL_SIZES } from "../../utils/types";
+import {
+  CheckCircleTwoTone,
+  ClockCircleTwoTone,
+  ExclamationCircleTwoTone,
+  CloseCircleTwoTone,
+  SyncOutlined,
+  EyeOutlined,
+  CheckCircleFilled,
+  ClockCircleFilled,
+} from "@ant-design/icons";
+import {
+  ErrorResponse,
+  IJobEvent,
+  IProject,
+  IUser,
+  MODAL_SIZES,
+} from "../../utils/types";
 import { store } from "../../store/store";
 import { GlobalSliceReducers } from "../../store/slices/global.slice";
 import JobEventForm from "../Forms/JobEvent.form";
@@ -14,6 +29,7 @@ interface IJobEventsTableProps {
   loadJobEvents: () => void;
   employees: IUser[];
   projects: IProject[];
+  showProjectColumn?: boolean;
 }
 
 const JobEventsTable = ({
@@ -22,6 +38,7 @@ const JobEventsTable = ({
   loadJobEvents,
   employees,
   projects,
+  showProjectColumn = true,
 }: IJobEventsTableProps) => {
   const { notification } = App.useApp();
 
@@ -63,32 +80,38 @@ const JobEventsTable = ({
         description: (error as ErrorResponse).message,
       });
     }
-  }
+  };
 
   // Status icon and color mapping (same as in JobEvent.form.tsx)
   const statusIcon = (status: string) => {
     switch (status) {
       case JOB_EVENT_STATUS.TODO:
-        return <ClockCircleFilled style={{ color: '#faad14', marginRight: 6 }} />;
+        return (
+          <ClockCircleFilled style={{ color: "#faad14", marginRight: 6 }} />
+        );
       case JOB_EVENT_STATUS.IN_PROGRESS:
-        return <SyncOutlined spin style={{ color: '#1890ff', marginRight: 6 }} />;
+        return (
+          <SyncOutlined spin style={{ color: "#1890ff", marginRight: 6 }} />
+        );
       case JOB_EVENT_STATUS.ON_REVIEW:
-        return <EyeOutlined style={{ color: '#722ed1', marginRight: 6 }} />;
+        return <EyeOutlined style={{ color: "#722ed1", marginRight: 6 }} />;
       case JOB_EVENT_STATUS.DONE:
-        return <CheckCircleFilled style={{ color: '#52c41a', marginRight: 6 }} />;
+        return (
+          <CheckCircleFilled style={{ color: "#52c41a", marginRight: 6 }} />
+        );
       default:
         return null;
     }
   };
 
-  const columns: TableProps<IJobEvent>["columns"] = [
+  const columnsBody: TableProps<IJobEvent>["columns"] = [
     {
       title: "Title",
       dataIndex: "title",
       key: "title",
       width: 120,
       ellipsis: true,
-      responsive: ['xs', 'sm', 'md', 'lg', 'xl'],
+      render: (_: unknown, record: IJobEvent) => <span>{record.title}</span>,
     },
     {
       title: "Description",
@@ -96,11 +119,12 @@ const JobEventsTable = ({
       key: "description",
       width: 200,
       ellipsis: true,
-      responsive: ['sm', 'md', 'lg', 'xl'],
-      render: (_, record) => (
+      render: (_: unknown, record: IJobEvent) => (
         <p className="text-sm line-clamp-1">
           {record.description ?? (
-            <span className="text-secondary opacity-50">Nothing to show...</span>
+            <span className="text-secondary opacity-50">
+              Nothing to show...
+            </span>
           )}
         </p>
       ),
@@ -111,8 +135,7 @@ const JobEventsTable = ({
       key: "status",
       width: 100,
       ellipsis: true,
-      responsive: ['xs', 'sm', 'md', 'lg', 'xl'],
-      render: (_, record) => (
+      render: (_: unknown, record: IJobEvent) =>
         record.status ? (
           <span className="capitalize text-xs font-semibold flex items-center">
             {statusIcon(record.status)}
@@ -120,8 +143,7 @@ const JobEventsTable = ({
           </span>
         ) : (
           <span className="text-secondary opacity-50">-</span>
-        )
-      ),
+        ),
     },
     {
       title: "End Time",
@@ -129,17 +151,20 @@ const JobEventsTable = ({
       key: "end",
       width: 160,
       ellipsis: true,
-      responsive: ['sm', 'md', 'lg', 'xl'],
-      render: (_, record) => {
+      render: (_: unknown, record: IJobEvent) => {
         const now = new Date();
         const end = record.end ? new Date(record.end) : null;
         let bg = "";
-        let icon = null;
+        let icon: JSX.Element | null = null;
         const textColor = "text-xs";
 
         if (!end) {
           icon = <ClockCircleTwoTone twoToneColor="#d1d5db" className="mr-1" />;
-          return <span className="text-secondary opacity-50 flex items-center">Nothing to show...</span>;
+          return (
+            <span className="text-secondary opacity-50 flex items-center">
+              Nothing to show...
+            </span>
+          );
         }
 
         if (record.status === JOB_EVENT_STATUS.DONE) {
@@ -148,15 +173,23 @@ const JobEventsTable = ({
         } else if (end < now) {
           bg = "bg-red-100/70";
           icon = <CloseCircleTwoTone twoToneColor="#ff4d4f" className="mr-1" />;
-        } else if (end && (record.status === JOB_EVENT_STATUS.ON_REVIEW || record.status === JOB_EVENT_STATUS.IN_PROGRESS)) {
+        } else if (
+          end &&
+          (record.status === JOB_EVENT_STATUS.ON_REVIEW ||
+            record.status === JOB_EVENT_STATUS.IN_PROGRESS)
+        ) {
           bg = "bg-yellow-100/70";
-          icon = <ExclamationCircleTwoTone twoToneColor="#faad14" className="mr-1" />;
+          icon = (
+            <ExclamationCircleTwoTone twoToneColor="#faad14" className="mr-1" />
+          );
         } else {
           icon = <ClockCircleTwoTone twoToneColor="#1890ff" className="mr-1" />;
         }
 
         return (
-          <span className={`flex items-center rounded px-2 py-1 ${bg} ${textColor}`}>
+          <span
+            className={`flex items-center rounded px-2 py-1 ${bg} ${textColor}`}
+          >
             {icon}
             {end.toLocaleString()}
           </span>
@@ -168,8 +201,7 @@ const JobEventsTable = ({
       key: "actions",
       align: "center",
       width: 120,
-      responsive: ['xs', 'sm', 'md', 'lg', 'xl'],
-      render: (_, record) => (
+      render: (_: unknown, record: IJobEvent) => (
         <div className="flex gap-2 justify-center">
           <Space size="middle">
             <Button
@@ -183,9 +215,7 @@ const JobEventsTable = ({
           <Space size="middle">
             <Popconfirm
               title="Are you sure to delete this job event?"
-              onConfirm={() => {
-                deleteJobEvent(record._id);
-              }}
+              onConfirm={() => deleteJobEvent(record._id)}
               okText="Yes"
               cancelText="No"
             >
@@ -202,6 +232,27 @@ const JobEventsTable = ({
       ),
     },
   ];
+
+  const columns = showProjectColumn
+    ? [
+        {
+          title: "Project",
+          dataIndex: "project",
+          key: "project",
+          width: 160,
+          ellipsis: true,
+          render: (_: number, record: IJobEvent) => {
+            const proj = projects.find((p) => p._id === record.project);
+            return proj ? (
+              <span className="text-sm">{proj.name}</span>
+            ) : (
+              <span className="text-secondary opacity-50">Project not found</span>
+            );
+          },
+        },
+        ...columnsBody,
+      ]
+    : columnsBody;
 
   return (
     <div className="w-full overflow-x-auto">

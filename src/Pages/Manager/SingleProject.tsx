@@ -263,6 +263,7 @@ const SingleProject = () => {
           loadJobEvents={loadJobEvents}
           employees={employees}
           projects={projects}
+          showProjectColumn={false}
         />
       </div>
     </div>

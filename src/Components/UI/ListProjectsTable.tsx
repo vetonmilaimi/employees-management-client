@@ -1,10 +1,6 @@
 import { Button, Table, TableProps, Dropdown } from "antd";
 import { useNavigate } from "react-router-dom";
-import {
-  EllipsisOutlined,
-  EyeOutlined,
-  EditOutlined,
-} from "@ant-design/icons";
+import { EllipsisOutlined, EyeOutlined, EditOutlined } from "@ant-design/icons";
 
 import { IProject } from "../../utils/types";
 import { store } from "../../store/store";

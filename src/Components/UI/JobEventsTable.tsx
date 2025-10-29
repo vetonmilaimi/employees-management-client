@@ -1,6 +1,7 @@
 import { App, Button, Popconfirm, Space, Table, TableProps } from "antd";
 
 import { JOB_EVENT_STATUS } from "../../utils/constants";
+import { useNavigate } from "react-router-dom";
 import {
   CheckCircleTwoTone,
   ClockCircleTwoTone,
@@ -41,6 +42,7 @@ const JobEventsTable = ({
   showProjectColumn = true,
 }: IJobEventsTableProps) => {
   const { notification } = App.useApp();
+  const navigate = useNavigate();
 
   const viewJobEvent = (jobEvent: IJobEvent) => {
     store.dispatch(
@@ -241,12 +243,20 @@ const JobEventsTable = ({
           key: "project",
           width: 160,
           ellipsis: true,
-          render: (_: number, record: IJobEvent) => {
+          render: (_: unknown, record: IJobEvent) => {
             const proj = projects.find((p) => p._id === record.project);
             return proj ? (
-              <span className="text-sm">{proj.name}</span>
+              <Button
+                type="link"
+                onClick={() => navigate(`/manager/projects/${proj._id}`)}
+                className="p-0"
+              >
+                {proj.name}
+              </Button>
             ) : (
-              <span className="text-secondary opacity-50">Project not found</span>
+              <span className="text-secondary opacity-50">
+                Project not found
+              </span>
             );
           },
         },

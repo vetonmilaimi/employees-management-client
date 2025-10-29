@@ -95,6 +95,7 @@ export interface IProject {
   _id: string;
   name: string;
   description?: string;
+  status?: string;
   organization: string;
 }
 

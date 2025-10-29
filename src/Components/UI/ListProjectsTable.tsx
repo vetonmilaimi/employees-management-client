@@ -1,8 +1,10 @@
 import { Button, Table, TableProps, Dropdown } from "antd";
 import { useNavigate } from "react-router-dom";
-import { EllipsisOutlined, EyeOutlined, EditOutlined } from "@ant-design/icons";
+import { EllipsisOutlined, EditOutlined } from "@ant-design/icons";
 
 import { IProject } from "../../utils/types";
+import { JOB_EVENT_STATUS } from "../../utils/constants";
+import { CheckCircleFilled, ClockCircleFilled, SyncOutlined, EyeOutlined } from "@ant-design/icons";
 import { store } from "../../store/store";
 import { GlobalSliceReducers } from "../../store/slices/global.slice";
 import ProjectsForm from "../Forms/Projects.form";
@@ -71,6 +73,37 @@ const ListProjectsTable = ({
           {text}
         </Button>
       ),
+    },
+    {
+      title: "Status",
+      key: "status",
+      dataIndex: "status",
+      width: 140,
+  render: (_text, record) => {
+        const status = record.status;
+        const statusIcon = (s?: string) => {
+          switch (s) {
+            case JOB_EVENT_STATUS.TODO:
+              return <ClockCircleFilled style={{ color: '#faad14', marginRight: 6 }} />;
+            case JOB_EVENT_STATUS.IN_PROGRESS:
+              return <SyncOutlined spin style={{ color: '#1890ff', marginRight: 6 }} />;
+            case JOB_EVENT_STATUS.ON_REVIEW:
+              return <EyeOutlined style={{ color: '#722ed1', marginRight: 6 }} />;
+            case JOB_EVENT_STATUS.DONE:
+              return <CheckCircleFilled style={{ color: '#52c41a', marginRight: 6 }} />;
+            default:
+              return null;
+          }
+        };
+
+        return status ? (
+          <span className="capitalize text-xs font-semibold flex items-center">
+            {statusIcon(status)} {status}
+          </span>
+        ) : (
+          <span className="text-secondary opacity-50">-</span>
+        );
+      },
     },
     {
       title: "Description",

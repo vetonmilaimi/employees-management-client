@@ -24,6 +24,8 @@ import {
   ErrorResponse,
   ITimeOnProject,
 } from "../../utils/types";
+import { JOB_EVENT_STATUS } from "../../utils/constants";
+import { CheckCircleFilled, ClockCircleFilled, SyncOutlined, EyeOutlined } from '@ant-design/icons';
 
 const { Title, Paragraph } = Typography;
 
@@ -208,6 +210,27 @@ const SingleProject = () => {
           <div>
             <Title level={3}>{project.name}</Title>
             <Paragraph>{project.description || "No description"}</Paragraph>
+            {project.status && (
+              <Paragraph>
+                <span className="capitalize text-sm font-semibold flex items-center">
+                  {(() => {
+                    switch (project.status) {
+                      case JOB_EVENT_STATUS.TODO:
+                        return <ClockCircleFilled style={{ color: '#faad14', marginRight: 6 }} />;
+                      case JOB_EVENT_STATUS.IN_PROGRESS:
+                        return <SyncOutlined spin style={{ color: '#1890ff', marginRight: 6 }} />;
+                      case JOB_EVENT_STATUS.ON_REVIEW:
+                        return <EyeOutlined style={{ color: '#722ed1', marginRight: 6 }} />;
+                      case JOB_EVENT_STATUS.DONE:
+                        return <CheckCircleFilled style={{ color: '#52c41a', marginRight: 6 }} />;
+                      default:
+                        return null;
+                    }
+                  })()}
+                  {project.status}
+                </span>
+              </Paragraph>
+            )}
             {!loadingTimeOnProject && (
               <Paragraph>
                 <span>

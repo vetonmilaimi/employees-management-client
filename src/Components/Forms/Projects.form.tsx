@@ -1,11 +1,13 @@
 import AppTexts from "../../utils/texts/app-texts.json";
 
-import { App, Button, Form, Input } from "antd";
+import { App, Button, Form, Input, Select } from "antd";
 import { useForm } from "antd/es/form/Form";
 import TextArea from "antd/es/input/TextArea";
 import { useState } from "react";
 import { ErrorResponse, IProject } from "../../utils/types";
 import projectService from "../../services/project.service";
+import { JOB_EVENT_STATUS } from "../../utils/constants";
+import { CheckCircleFilled, ClockCircleFilled, SyncOutlined, EyeOutlined } from "@ant-design/icons";
 
 interface Props {
   edit?: boolean;
@@ -49,6 +51,27 @@ const ProjectsForm = ({ onSuccessCallback, edit, project }: Props) => {
           initialValue={edit ? project?.name : ""}
         >
           <Input placeholder="Project name" />
+        </Form.Item>
+
+        <Form.Item
+          name="status"
+          rules={[{ required: false }]}
+          initialValue={edit ? project?.status : JOB_EVENT_STATUS.TODO}
+        >
+          <Select optionLabelProp="label">
+            <Select.Option value={JOB_EVENT_STATUS.TODO} label={<span><ClockCircleFilled style={{ color: '#faad14', marginRight: 6 }} />To Do</span>}>
+              <span><ClockCircleFilled style={{ color: '#faad14', marginRight: 6 }} />To Do</span>
+            </Select.Option>
+            <Select.Option value={JOB_EVENT_STATUS.IN_PROGRESS} label={<span><SyncOutlined spin style={{ color: '#1890ff', marginRight: 6 }} />In Progress</span>}>
+              <span><SyncOutlined spin style={{ color: '#1890ff', marginRight: 6 }} />In Progress</span>
+            </Select.Option>
+            <Select.Option value={JOB_EVENT_STATUS.ON_REVIEW} label={<span><EyeOutlined style={{ color: '#722ed1', marginRight: 6 }} />On Review</span>}>
+              <span><EyeOutlined style={{ color: '#722ed1', marginRight: 6 }} />On Review</span>
+            </Select.Option>
+            <Select.Option value={JOB_EVENT_STATUS.DONE} label={<span><CheckCircleFilled style={{ color: '#52c41a', marginRight: 6 }} />Done</span>}>
+              <span><CheckCircleFilled style={{ color: '#52c41a', marginRight: 6 }} />Done</span>
+            </Select.Option>
+          </Select>
         </Form.Item>
 
         <Form.Item

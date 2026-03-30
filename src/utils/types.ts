@@ -97,6 +97,7 @@ export interface IProject {
   description?: string;
   status?: string;
   organization: string;
+  employees?: string[];
 }
 
 export enum PageTabButtonTypes {

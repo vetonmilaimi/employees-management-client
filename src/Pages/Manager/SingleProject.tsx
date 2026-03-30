@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { Card, Spin, Typography, App } from "antd";
+import { Card, Spin, Typography, App, Tag } from "antd";
 import { ArrowLeftOutlined } from "@ant-design/icons";
 
 import PageTabHeader from "../../Components/UI/PageTabHeader";
@@ -48,6 +48,18 @@ const SingleProject = () => {
   );
   const [loadingTimeOnProject, setLoadingTimeOnProject] =
     useState<boolean>(true);
+
+  const projectEmployees =
+    project?.employees?.map((employeeId) => {
+      const employee = employees.find((item) => item._id === employeeId);
+
+      return {
+        id: employeeId,
+        label: employee
+          ? `${employee.firstName} ${employee.lastName}`
+          : employeeId,
+      };
+    }) ?? [];
 
   const loadProject = async (projectId: string) => {
     try {
@@ -231,6 +243,20 @@ const SingleProject = () => {
                 </span>
               </Paragraph>
             )}
+            <Paragraph>
+              <span className="font-semibold">Employees:</span>{" "}
+              {projectEmployees.length > 0 ? (
+                <span className="inline-flex flex-wrap gap-2 align-middle">
+                  {projectEmployees.map((employee) => (
+                    <Tag key={employee.id} className="m-0">
+                      {employee.label}
+                    </Tag>
+                  ))}
+                </span>
+              ) : (
+                "No employees assigned"
+              )}
+            </Paragraph>
             {!loadingTimeOnProject && (
               <Paragraph>
                 <span>

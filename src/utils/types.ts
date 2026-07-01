@@ -98,6 +98,7 @@ export interface IProject {
   status?: string;
   organization: string;
   employees?: string[];
+  duration?: number;
 }
 
 export enum PageTabButtonTypes {

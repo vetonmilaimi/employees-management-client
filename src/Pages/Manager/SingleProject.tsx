@@ -25,7 +25,12 @@ import {
   ITimeOnProject,
 } from "../../utils/types";
 import { JOB_EVENT_STATUS } from "../../utils/constants";
-import { CheckCircleFilled, ClockCircleFilled, SyncOutlined, EyeOutlined } from '@ant-design/icons';
+import {
+  CheckCircleFilled,
+  ClockCircleFilled,
+  SyncOutlined,
+  EyeOutlined,
+} from "@ant-design/icons";
 
 const { Title, Paragraph } = Typography;
 
@@ -44,7 +49,7 @@ const SingleProject = () => {
   const [projects, setProjects] = useState<IProject[]>([]);
 
   const [timeOnProject, setTimeOnProject] = useState<ITimeOnProject | null>(
-    null
+    null,
   );
   const [loadingTimeOnProject, setLoadingTimeOnProject] =
     useState<boolean>(true);
@@ -156,7 +161,7 @@ const SingleProject = () => {
             }}
           />
         ),
-      })
+      }),
     );
   };
 
@@ -204,7 +209,7 @@ const SingleProject = () => {
             label: "Delete",
             onClick: () => {
               const confirmed = window.confirm(
-                AppTexts?.users_page?.["delete-user"] || "Are you sure?"
+                AppTexts?.users_page?.["delete-user"] || "Are you sure?",
               );
               if (confirmed) deleteCurrentProject();
             },
@@ -228,13 +233,30 @@ const SingleProject = () => {
                   {(() => {
                     switch (project.status) {
                       case JOB_EVENT_STATUS.TODO:
-                        return <ClockCircleFilled style={{ color: '#faad14', marginRight: 6 }} />;
+                        return (
+                          <ClockCircleFilled
+                            style={{ color: "#faad14", marginRight: 6 }}
+                          />
+                        );
                       case JOB_EVENT_STATUS.IN_PROGRESS:
-                        return <SyncOutlined spin style={{ color: '#1890ff', marginRight: 6 }} />;
+                        return (
+                          <SyncOutlined
+                            spin
+                            style={{ color: "#1890ff", marginRight: 6 }}
+                          />
+                        );
                       case JOB_EVENT_STATUS.ON_REVIEW:
-                        return <EyeOutlined style={{ color: '#722ed1', marginRight: 6 }} />;
+                        return (
+                          <EyeOutlined
+                            style={{ color: "#722ed1", marginRight: 6 }}
+                          />
+                        );
                       case JOB_EVENT_STATUS.DONE:
-                        return <CheckCircleFilled style={{ color: '#52c41a', marginRight: 6 }} />;
+                        return (
+                          <CheckCircleFilled
+                            style={{ color: "#52c41a", marginRight: 6 }}
+                          />
+                        );
                       default:
                         return null;
                     }
@@ -264,7 +286,8 @@ const SingleProject = () => {
                     ⏰
                   </span>{" "}
                   <b>
-                    {timeOnProject?.hours}h {timeOnProject?.minutes}m
+                    {project.duration}
+                    {/* {timeOnProject?.hours}h {timeOnProject?.minutes}m */}
                   </b>{" "}
                   have been dedicated to this project so far.
                   <br />
@@ -300,7 +323,7 @@ const SingleProject = () => {
                       />
                     ),
                     size: MODAL_SIZES.LARGE,
-                  })
+                  }),
                 );
               },
             },
